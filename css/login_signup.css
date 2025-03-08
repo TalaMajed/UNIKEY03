@@ -1,0 +1,216 @@
+/* General Styles */
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f3f4e7;
+    color: #314528;
+}
+/* Header Styles */
+header {
+    padding: 20px 20px 20px 0px;
+    background-color: #314528;
+    color: #f3f4e7;
+}
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+    /* Adds spacing between elements */
+}
+
+.logo {
+    height: 50px;
+}
+
+.header-content h3 {
+    margin: 0;
+    font-size: 24px;
+    flex-grow: 1;
+    /* Allows the title to take up remaining space */
+    text-align: center;
+}
+.top-right-icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: #f3f4e7;
+}
+/* Form Container */
+.sign {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #d1d3c4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #314528;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-group select {
+    appearance: none;
+    background-color: #fff;
+}
+/* Remember Me */
+.remember-me {
+    display: flex;
+}
+.remember-me .ch{
+    width: 20px;
+}
+.remember-me input {
+    margin-right: 10px;
+}
+
+.remember-me label {
+    margin: 0;
+}
+/* Submit Button */
+.sub {
+    width: 100%;
+    padding: 10px;
+    background-color: #314528;
+    color: #f3f4e7;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;   
+}
+
+.sub:hover {
+    background-color: #1e2a1a;
+}
+
+/* Links */
+.links {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.links a {
+    color: #314528;
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sign {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .form-title {
+        font-size: 20px;
+    }
+
+    .form-group input,
+    .form-group select {
+        font-size: 14px;
+    }
+
+    .sub {
+        font-size: 14px;
+    }
+    .header-content {
+            flex-direction: row;
+            /* Keep elements in a row */
+            align-items: center;
+            gap: 10px;
+        }
+    .header-content h3 {
+        font-size: 20px;
+        text-align: left;
+        /* Align text to the left */
+        flex-grow: 0;
+        /* Prevent the title from taking extra space */
+        order: 2;
+        /* Move h3 to the middle */
+    }
+
+    .logo {
+        order: 1;
+        /* Move logo to the left */
+    }
+
+    .top-right-icon {
+        order: 3;
+        /* Move globe icon to the right */
+    }
+}
+
+@media (max-width: 480px) {
+    /* .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    } */
+    .header-content h3 {
+        font-size: 18px;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    .top-right-icon {
+        align-self: flex-end;
+    }
+
+    .sign {
+        margin: 25px auto;
+        padding: 10px;
+        background-color: #d1d3c4;
+        width: 300px;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        position: absolute;
+    }
+    
+
+    .form-title {
+        font-size: 18px;
+    }
+
+    .form-group input,
+    .form-group select {
+        font-size: 12px;
+        width: 95%;
+    }
+
+    .sub {
+        font-size: 12px;
+    }
+}
