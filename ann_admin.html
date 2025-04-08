@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Announcements</title>
+    <!-- css -->
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="stylesheet" href="css/framework.css" />
+    <link rel="stylesheet" href="css/announcement.css" />
+    <link rel="stylesheet" href="css/side.css" />
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
+    <style>
+        .latest-news {
+            background-color: #314528;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .announcement-form input,
+        .announcement-form textarea,
+        .announcement-form select,
+        .announcement-form input[type="file"],
+        .announcement-form input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .announcement-form button {
+            padding: 10px 20px;
+            background-color: #f6f6f6;
+            color: #314528;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .announcement-form button:hover {
+            background-color: #f3f4e7;
+        }
+
+        .announcement-list {
+            margin-top: 20px;
+        }
+
+        .announcement-item {
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .announcement-item h3 {
+            margin: 0 0 10px;
+        }
+
+        .announcement-item p {
+            margin: 0 0 10px;
+        }
+
+        .announcement-item img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .announcement-item .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .announcement-item .actions button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .announcement-item .actions .edit-btn {
+            background-color: #314528;
+            color: white;
+        }
+
+        .announcement-item .actions .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .attach{
+            display: flex ;
+        }
+        .attach-pin{
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page d-flex content">
+        <!-- Sidebar -->
+        <div class="sidebar bg-white p-20 p-relative">
+            <h3 class="p-relative txt-c mt-0">Admin</h3>
+            <ul>
+                <li>
+                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings_admin.html">
+                        <i class="fa-regular fa-chart-bar fa-fw"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="ann_admin.html">
+                        <i class="fa-solid fa-gear fa-fw"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event_admin.html">
+                        <i class="fa-solid fa-map"></i>
+                        <span>Events</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Content -->
+        <div class="content w-full full-content">
+            <!-- Header -->
+            <div class="head bg-white p-15 between-flex">
+                <div class="search p-relative">
+                    <input class="p-10" type="search" placeholder="Type A Keyword" />
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="wrapper">
+                <div class="short-header">
+                    <h1 class="p-relative">Admin Panel for Announcements</h1>
+                </div>
+
+                <!-- Announcement Form -->
+                <div class="latest-news p-20 bg-white rad-10 txt-c-mobile">
+                    <h2 class="mt-0 mb-20">Add New Announcement</h2>
+                    <form class="announcement-form" onsubmit="event.preventDefault(); addAnnouncement();">
+                        <input type="text" id="announcement-title" placeholder="Title" required />
+                        <textarea id="announcement-des" placeholder="Description" rows="2" required></textarea>
+                        <textarea id="announcement-content" placeholder="Content" rows="5" required></textarea>
+                        <input type="date" id="announcement-date" required />
+                        <select id="announcement-category" required>
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="General">General</option>
+                            <option value="Events">Events</option>
+                            <option value="Admissions">Admissions</option>
+                            <option value="Graduate">Graduate</option>
+                            <option value="Media">Media</option>
+                        </select>
+                        <div class="attach">
+                            <i class="fa-solid fa-paperclip attach-pin"></i>
+                            <input type="file" id="announcement-image" accept="image/*" />
+                        </div>
+                        <button type="submit">Add Announcement</button>
+                    </form>
+                </div>
+
+                <!-- List of Announcements -->
+                <div class="announcement-list" id="announcement-list">
+                    <h2 class="mt-0 mb-20">Existing Announcements</h2>
+                    <!-- Announcements will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data to store announcements
+        let announcements = [];
+
+        // Function to add a new announcement
+        function addAnnouncement() {
+            const title = document.getElementById('announcement-title').value;
+            const des = document.getElementById('announcement-des').value;
+            const content = document.getElementById('announcement-content').value;
+            const date = document.getElementById('announcement-date').value;
+            const category = document.getElementById('announcement-category').value;
+            const image = document.getElementById('announcement-image').files[0];
+
+            if (title && content && date && category) {
+                const newAnnouncement = {
+                    id: Date.now(), // Unique ID for each announcement
+                    title: title,
+                    des: des,
+                    content: content,
+                    date: date,
+                    category: category,
+                    image: image ? URL.createObjectURL(image) : null, // Store image URL
+                };
+                announcements.push(newAnnouncement);
+                renderAnnouncements();
+                clearForm();
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+
+        // Function to delete an announcement
+        function deleteAnnouncement(id) {
+            announcements = announcements.filter(announcement => announcement.id !== id);
+            renderAnnouncements();
+        }
+
+        // Function to render all announcements
+        function renderAnnouncements() {
+            const announcementList = document.getElementById('announcement-list');
+            announcementList.innerHTML = '<h2>Existing Announcements</h2>';
+
+            announcements.forEach(announcement => {
+                const announcementItem = document.createElement('div');
+                announcementItem.className = 'announcement-item';
+                announcementItem.innerHTML = `
+                    <h3>${announcement.title}</h3>
+                    <p><strong>Description:</strong> ${announcement.des}</p>
+                    <p><strong>Date:</strong> ${announcement.date}</p>
+                    <p><strong>Category:</strong> ${announcement.category}</p>
+                    <p><strong>Content:</strong>${announcement.content}</p>
+                    <!-- <div style="width: 200px; height: 200px; display: block;"> -->
+                    ${announcement.image ? `<img src="${announcement.image}" alt="Announcement Image" />` : ''}
+                    <!-- </div> -->
+                    <div class="actions">
+                        <button class="edit-btn" onclick="editAnnouncement(${announcement.id})">Edit</button>
+                        <button class="delete-btn" onclick="deleteAnnouncement(${announcement.id})">Delete</button>
+                    </div>
+                `;
+                announcementList.appendChild(announcementItem);
+            });
+        }
+
+        // Function to clear the form after adding an announcement
+        function clearForm() {
+            document.getElementById('announcement-title').value = '';
+            document.getElementById('announcement-content').value = '';
+            document.getElementById('announcement-date').value = '';
+            document.getElementById('announcement-category').value = '';
+            document.getElementById('announcement-image').value = '';
+        }
+
+        // Function to edit an announcement (placeholder for now)
+        function editAnnouncement(id) {
+            const announcement = announcements.find(announcement => announcement.id === id);
+            if (announcement) {
+                document.getElementById('announcement-title').value = announcement.title;
+                document.getElementById('announcement-content').value = announcement.content;
+                document.getElementById('announcement-date').value = announcement.date;
+                document.getElementById('announcement-category').value = announcement.category;
+                deleteAnnouncement(id); // Remove the old announcement
+            }
+        }
+
+        // Initial render of announcements
+        renderAnnouncements();
+    </script>
+</body>
+
+</html>

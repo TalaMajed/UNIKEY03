@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniKey - Portals</title>
+    <!-- css -->
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="stylesheet" href="css/framework.css" />
+    <link rel="stylesheet" href="css/help.css" />
+    <link rel="stylesheet" href="css/side.css" />
+    <!-- <link rel="stylesheet" href="css/master.css" /> -->
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="page d-flex">
+        <div class="sidebar bg-white p-20 p-relative">
+            <h3 class="p-relative txt-c mt-0">UniKey</h3>
+            <ul>
+                <li>
+                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
+                        <i class="fa-regular fa-chart-bar fa-fw"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
+                        <i class="fa-solid fa-gear fa-fw"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
+                        <i class="fa-solid fa-map"></i>
+                        <span>Map</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span>Lost/Found</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
+                        <i class="fa-solid fa-door-open"></i>
+                        <span>Portals</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span>Events</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
+                        <i class="fa-solid fa-bullhorn"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
+                        <i class="fa-solid fa-store"></i>
+                        <span>Marketplace</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Help</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="content w-full">
+            <!-- Start Head -->
+            <div class="head bg-white p-15 between-flex">
+                <div class="search p-relative">
+                    <input class="p-10" type="search" placeholder="Type A Keyword" />
+                </div>
+                <div class="icons d-flex align-center">
+                    <span class="notification p-relative">
+                        <i class="fa-solid fa-globe"></i>
+                        <i class="fa-solid fa-user"></i>
+                        <i class="fa-regular fa-bell fa-lg"></i>
+                    </span>
+                    <!-- <img src="imgs/avatar.png" alt="" /> -->
+                </div>
+            </div>
+            <!-- End Head -->
+            <h1 class="p-relative">Portals</h1>
+            <div class="wrapper d-grid gap-20">
+
+                <!-- Section 1: Welcome Section -->
+                <div class="welcome-section">
+                    <h1>Access University Portals</h1>
+                    <p>Explore and access various university portals for students, faculty, and staff.</p>
+                </div>
+
+                <!-- Section 2: Portals Grid -->
+                <div class="portals-grid d-grid gap-20">
+                    <!-- Student Portal -->
+                    <div class="portal-box bg-white rad-10 p-20" id="studentPortal">
+                        <i class="fa-solid fa-graduation-cap fa-3x c-olive"></i>
+                        <h3>Student Portal</h3>
+                        <p>Access your academic records, register for courses, and view your schedule.</p>
+                        <div class="extra-links">
+                            <a href="#">Academic Records</a><br>
+                            <a href="#">Course Registration</a><br>
+                            <a href="#">Class Schedule</a>
+                        </div>
+                        <a href="#" class="save fs-14 bg-olive c-beige b-none w-fit btn-shape" onclick="togglePortal('studentPortal')">see more</a>
+                    </div>
+            </div>  
+                    <!-- Faculty Portal -->
+                    <div class="portal-box bg-white rad-10 p-20" id="studentPortal">
+                        <i class="fa-solid fa-chalkboard-user fa-3x c-blue"></i>
+                        <h3>Faculty Portal</h3>
+                        <p>Manage courses, submit grades, and access faculty resources.</p>
+                        <div class="extra-links">
+                            <a href="#">Academic Records</a><br>
+                            <a href="#">Course Registration</a><br>
+                            <a href="#">Class Schedule</a>
+                        </div>
+                        <a href="#" class="save fs-14 bg-blue c-white b-none w-fit btn-shape" onclick="togglePortal('studentPortal')">Go to Portal</a>
+                    </div>
+
+                    <!-- Library Portal -->
+                    <div class="portal-box bg-white rad-10 p-20" id="studentPortal">
+                        <i class="fa-solid fa-book fa-3x c-red"></i>
+                        <h3>Library Portal</h3>
+                        <p>Search for books, access digital resources, and manage your library account.</p>
+                        <div class="extra-links">
+                            <a href="#">Academic Records</a><br>
+                            <a href="#">Course Registration</a><br>
+                            <a href="#">Class Schedule</a>
+                        </div>
+                        <a href="#" class="save fs-14 bg-red c-white b-none w-fit btn-shape" onclick="togglePortal('studentPortal')">Go to Portal</a>
+                    </div>
+
+                    <!-- Research Portal -->
+                    <div class="portal-box bg-white rad-10 p-20" id="studentPortal">
+                        <i class="fa-solid fa-flask fa-3x c-purple"></i>
+                        <h3>Research Portal</h3>
+                        <p>Access research tools, funding opportunities, and collaboration platforms.</p>
+                        <div class="extra-links">
+                            <a href="#">Academic Records</a><br>
+                            <a href="#">Course Registration</a><br>
+                            <a href="#">Class Schedule</a>
+                        </div>
+                        <a href="#" class="save fs-14 bg-purple c-white b-none w-fit btn-shape" onclick="togglePortal('studentPortal')">Go to Portal</a>
+                    </div>
+
+                    <!-- Alumni Portal -->
+                    <div class="portal-box bg-white rad-10 p-20" id="studentPortal">
+                        <i class="fa-solid fa-users fa-3x c-orange"></i>
+                        <h3>Alumni Portal</h3>
+                        <p>Stay connected with the university, access alumni benefits, and network.</p>
+                        <div class="extra-links">
+                            <a href="#">Academic Records</a><br>
+                            <a href="#">Course Registration</a><br>
+                            <a href="#">Class Schedule</a>
+                        </div>
+                        <a href="#" class="save fs-14 bg-orange c-white b-none w-fit btn-shape" onclick="togglePortal('studentPortal')">Go to Portal</a>
+                    </div>
+
+                    <!-- IT Services Portal -->
+                    <div class="portal-box bg-white rad-10 p-20" id="studentPortal">
+                        <i class="fa-solid fa-laptop fa-3x c-teal"></i>
+                        <h3>IT Services Portal</h3>
+                        <p>Get IT support, access software, and manage your university account.</p>
+                        <div class="extra-links">
+                            <a href="#">Academic Records</a><br>
+                            <a href="#">Course Registration</a><br>
+                            <a href="#">Class Schedule</a>
+                        </div>
+                        <a href="#" class="save fs-14 bg-teal c-white b-none w-fit btn-shape" onclick="togglePortal('studentPortal')">Go to Portal</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function togglePortal(id) {
+            var portal = document.getElementById(id);
+            portal.classList.toggle("expanded");
+        }
+    </script>
+</body>
+
+</html>
