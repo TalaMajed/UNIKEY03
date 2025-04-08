@@ -1,0 +1,86 @@
+:root {
+    --olive: #314528;
+    --beige: #f3f4e7;
+}
+body {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: var(--beige);
+    color: var(--olive);
+}
+
+.hero {
+    position: relative;
+    width: 100%;
+    height: 370px;
+    background: url('../imgs/clock-tower.jpg') no-repeat center top/cover;
+}
+
+.brief {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--beige);
+    color: var(--olive);
+    padding: 15px 25px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.services {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    /* gap: 20px; */
+    padding: 20px;
+    text-align: center;
+}
+
+.service {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.service img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+.service p {
+    margin-top: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.auth-buttons {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-buttons button {
+    padding: 10px 20px;
+    margin: 5px 0;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 150px;
+}
+
+.login {
+    background: var(--olive);
+    color: var(--beige);
+}
+
+.signup {
+    background: #d1d3c4;
+    color: var(--olive);
+}
