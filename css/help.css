@@ -1,6 +1,9 @@
 
 /* End Content */
 /* start welcome */
+body {
+    font-family: 'Poppins', sans-serif;
+}
 .welcome-section {
     text-align: center;
     background-color: #f4f4f4;

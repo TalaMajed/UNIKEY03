@@ -6,6 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UniKey - Dashboard</title>
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <link rel="shortcut icon" href="favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="favicon/site.webmanifest" />
     <!-- css -->
     <link rel="stylesheet" href="css/all.min.css" />
     <link rel="stylesheet" href="css/framework.css" />
@@ -23,86 +29,85 @@
 
 <body>
     <div class="page d-flex">
-        <!-- Sidebar Navigation -->
-        <div class="sidebar bg-white p-20 p-relative">
-            <h3 class="p-relative txt-c mt-0">UniKey</h3>
-            <ul>
-                <li>
-                    <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
-                        <i class="fa-regular fa-chart-bar fa-fw"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
-                        <i class="fa-solid fa-gear fa-fw"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
-                        <i class="fa-solid fa-map"></i>
-                        <span>Map</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <span>Lost/Found</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
-                        <i class="fa-solid fa-door-open"></i>
-                        <span>Portals</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
-                        <i class="fa-regular fa-calendar"></i>
-                        <span>Events</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
-                        <i class="fa-solid fa-bullhorn"></i>
-                        <span>Announcements</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
-                        <i class="fa-solid fa-store"></i>
-                        <span>Marketplace</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <span>Help</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar bg-white p-20 p-relative" id="sidebar">
+        <a href="landing.html"><h3 class="p-relative txt-c mt-0">UniKey</h3></a>
+        <ul>
+            <li>
+                <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
+                    <i class="fa-regular fa-chart-bar fa-fw"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
+                    <i class="fa-solid fa-gear fa-fw"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            <li>
+                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
+                    <i class="fa-solid fa-map"></i>
+                    <span>Map</span>
+                </a>
+            </li>
+            <li>
+                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <span>Lost/Found</span>
+                </a>
+            </li>
+            <li>
+                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
+                    <i class="fa-solid fa-door-open"></i>
+                    <span>Portals</span>
+                </a>
+            </li>
+            <li>
+                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span>Events</span>
+                </a>
+            </li>
+            <li>
+                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span>Announcements</span>
+                </a>
+            </li>
+            <li>
+                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
+                    <i class="fa-solid fa-store"></i>
+                    <span>Marketplace</span>
+                </a>
+            </li>
+            <li>
+                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Help</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 
         <!-- Main Content -->
         <div class="content w-full">
             <!-- Header -->
             <div class="head bg-white p-15 between-flex">
-                <div class="search p-relative">
-                    <input class="p-10" type="search" placeholder="Type A Keyword" />
+                <div class="user-display p-relative d-flex align-center">
+                    <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
+                    <span class="fs-14 fw-500">Tala Hammami</span> <!-- Replace with dynamic username -->
                 </div>
                 <div class="icons d-flex align-center">
                     <span class="notification p-relative">
-                        <i class="fa-solid fa-globe"></i>
-                        <i class="fa-solid fa-user"></i>
                         <i class="fa-regular fa-bell fa-lg"></i>
+                        <i class="fa-solid fa-right-from-bracket"></i>
                     </span>
                 </div>
             </div>
-
             <!-- User Profile Section -->
             <div class="user-profile-header">
-                <img src="imgs/profile-pc.JPG" alt="User Avatar" class="user-avatar">
+                <img src="imgs/profile-pic.JPG" alt="User Avatar" class="user-avatar">
                 <div class="user-info">
                     <h2>Tala Hammami</h2>
                     <p>King Abdullah II Faculty of Information Technology</p>
@@ -133,14 +138,14 @@
                             <button class="action-btn" title="Edit">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
-                            <button class="action-btn" title="Delete">
-                                <i class="fa-solid fa-trash-can"></i>
+                            <button class="action-btn delete-event-btn " title="Delete" >
+                                <i class="fa-solid fa-trash-can "></i>
                             </button>
                         </div>
                         <h3>Saved Location</h3>
                         <p>Faculty Cafeteria</p>
                         <div class="map-preview">
-                            <img src="imgs/cafeteria-preview.jpg" alt="Cafeteria Preview">
+                            <img src="imgs/cafeteria.jpeg" alt="Cafeteria Preview">
                             <div class="map-label">IT Building Cafeteria</div>
                         </div>
                         <div class="item-meta">
@@ -203,15 +208,12 @@
             <!-- Lost & Found Items Section -->
             <div class="dashboard-section">
                 <h2 class="section-title">
-                    <i class="fa-solid fa-magnifying-glass"></i> Your Lost & Found Items
+                    <i class="fa-solid fa-magnifying-glass"></i> Your Found Items
                 </h2>
 
                 <div class="items-grid">
                     <div class="item-card">
                         <div class="item-actions">
-                            <button class="action-btn expire-btn" title="Mark as expired">
-                                <i class="fa-solid fa-clock"></i>
-                            </button>
                             <button class="action-btn" title="Edit">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
@@ -236,8 +238,8 @@
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
-                        <h3>Lost: Calculus Textbook</h3>
-                        <p>Lost in the cafeteria area. Has personal notes inside.</p>
+                        <h3>Found: Calculus Textbook</h3>
+                        <p>Found in the cafeteria area. Has personal notes inside.</p>
                         <div class="item-meta">
                             <span><i class="fa-solid fa-clock"></i> 1 week ago</span>
                             <span class="status status-missing">Still Missing</span>
@@ -260,7 +262,7 @@
                     <div class="item-card">
                         <div class="item-actions">
                             <button class="action-btn" title="Edit">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                                <i class="fa-solid fa-pen-to-square"></i>   
                             </button>
                             <button class="action-btn delete-marketplace-btn" title="Delete"
                                 data-item="Calculus Textbook">
@@ -268,7 +270,7 @@
                             </button>
                         </div>
                         <div class="marketplace-item">
-                            <img src="imgs/calculus-book.jpg" alt="Calculus Textbook">
+                            <!-- <img src="imgs/calculus.jpg" alt="Calculus Textbook"> -->
                             <div class="marketplace-info">
                                 <h4>Calculus Textbook</h4>
                                 <p>Excellent condition, barely used</p>
@@ -277,14 +279,14 @@
                         </div>
                         <div class="item-meta">
                             <span><i class="fa-solid fa-clock"></i> Posted 3 days ago</span>
-                            <span>3 interested</span>
+                            <a href="chat.html"><span class="interested">3 interested</span></a>
                         </div>
                     </div>
 
                     <div class="item-card">
                         <div class="item-actions">
                             <button class="action-btn" title="Edit">
-                                <i class="fa-solid fa-pen-to-square"></i>
+                                <i class="fa-solid fa-pen-to-square"></i>                   
                             </button>
                             <button class="action-btn delete-marketplace-btn" title="Delete"
                                 data-item="Linear Algebra Textbook">
@@ -292,7 +294,7 @@
                             </button>
                         </div>
                         <div class="marketplace-item">
-                            <img src="imgs/algebra-book.jpg" alt="Linear Algebra Textbook">
+                            <!-- <img src="imgs/linear.jpg" alt="Linear Algebra Textbook"> -->
                             <div class="marketplace-info">
                                 <h4>Linear Algebra Textbook</h4>
                                 <p>With solved problems and notes</p>
@@ -301,7 +303,7 @@
                         </div>
                         <div class="item-meta">
                             <span><i class="fa-solid fa-clock"></i> Posted 1 week ago</span>
-                            <span>1 interested</span>
+                            <a href="chat.html"><span class="interested" title="See who's interested">1 interested</span></a>
                         </div>
                     </div>
                 </div>
@@ -318,7 +320,7 @@
                     <p id="confirmationMessage">Are you sure you want to delete this item?</p>
                     <div class="confirmation-buttons">
                         <button class="cancel-btn" id="cancelDelete">Cancel</button>
-                        <button class="confirm-btn" id="confirmDelete">Delete</button>
+                        <button class="confirm-btn" id="confirmDelete" style="background-color: #d32f2f;">Delete</button>
                     </div>
                 </div>
             </div>
@@ -364,96 +366,7 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // Confirmation dialog for event deletion
-        document.querySelectorAll('.delete-event-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const eventName = this.getAttribute('data-event');
-                const dialog = document.getElementById('confirmationDialog');
-                const message = document.getElementById('confirmationMessage');
-
-                message.textContent = `Are you sure you want to cancel your registration for "${eventName}"? This action cannot be undone.`;
-                dialog.style.display = 'flex';
-
-                document.getElementById('confirmDelete').onclick = function () {
-                    // Here you would typically make an API call to delete the event
-                    const card = button.closest('.item-card');
-                    card.style.display = 'none';
-                    dialog.style.display = 'none';
-                    updateStats();
-                };
-            });
-        });
-
-        // Confirmation dialog for lost/found item deletion
-        document.querySelectorAll('.delete-item-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const itemName = this.getAttribute('data-item');
-                const dialog = document.getElementById('confirmationDialog');
-                const message = document.getElementById('confirmationMessage');
-
-                message.textContent = `Are you sure you want to delete the "${itemName}" item? This action cannot be undone.`;
-                dialog.style.display = 'flex';
-
-                document.getElementById('confirmDelete').onclick = function () {
-                    // Here you would typically make an API call to delete the item
-                    const card = button.closest('.item-card');
-                    card.style.display = 'none';
-                    dialog.style.display = 'none';
-                    updateStats();
-                };
-            });
-        });
-
-        // Confirmation dialog for marketplace item deletion
-        document.querySelectorAll('.delete-marketplace-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const itemName = this.getAttribute('data-item');
-                const dialog = document.getElementById('confirmationDialog');
-                const message = document.getElementById('confirmationMessage');
-
-                message.textContent = `Are you sure you want to delete the "${itemName}" listing? This action cannot be undone.`;
-                dialog.style.display = 'flex';
-
-                document.getElementById('confirmDelete').onclick = function () {
-                    // Here you would typically make an API call to delete the item
-                    const card = button.closest('.item-card');
-                    card.style.display = 'none';
-                    dialog.style.display = 'none';
-                    updateStats();
-                };
-            });
-        });
-
-        // Expire button functionality for found items
-        document.querySelectorAll('.expire-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const card = this.closest('.item-card');
-                const status = card.querySelector('.status');
-
-                status.textContent = 'Expired';
-                status.className = 'status status-expired';
-                this.style.display = 'none';
-            });
-        });
-
-        // Cancel button for confirmation dialog
-        document.getElementById('cancelDelete').addEventListener('click', function () {
-            document.getElementById('confirmationDialog').style.display = 'none';
-        });
-
-        // Update stats counters when items are deleted
-        function updateStats() {
-            const eventCount = document.querySelectorAll('.dashboard-section:nth-child(3) .item-card:not([style*="display: none"])').length;
-            const lostCount = document.querySelectorAll('.dashboard-section:nth-child(4) .item-card:not([style*="display: none"])').length;
-            const marketCount = document.querySelectorAll('.dashboard-section:nth-child(5) .item-card:not([style*="display: none"])').length;
-
-            document.querySelectorAll('.user-stats .stat-box')[0].innerHTML = `<i class="fa-solid fa-calendar-check"></i> ${eventCount} Events`;
-            document.querySelectorAll('.user-stats .stat-box')[1].innerHTML = `<i class="fa-solid fa-magnifying-glass"></i> ${lostCount} Lost Items`;
-            document.querySelectorAll('.user-stats .stat-box')[2].innerHTML = `<i class="fa-solid fa-store"></i> ${marketCount} Marketplace`;
-        }
-    </script>
+    <script src="js/home.js"></script>
 </body>
 
 </html>

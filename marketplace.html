@@ -6,95 +6,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UniKey - Marketplace</title>
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <link rel="shortcut icon" href="favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="favicon/site.webmanifest" />
     <!-- css -->
+    <link rel="stylesheet" href="css/marketplace.css" />
     <link rel="stylesheet" href="css/all.min.css" />
     <link rel="stylesheet" href="css/framework.css" />
-    <link rel="stylesheet" href="css/marketplace.css" />
     <link rel="stylesheet" href="css/side.css" />
-    <!-- <link rel="stylesheet" href="css/master.css" /> -->
-    <!-- fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
     <style>
-        /* Additional styles for better image handling */
-        .notebook-image-container {
-            width: 180px;
-            height: 240px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f5f5f5;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-
-        .notebook-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .friend {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: transform 0.3s ease;
-            position: relative;
-        }
-
-        .friend:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Styles for expired items */
-        .expired .notebook-image-container::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1;
-        }
-
-        .expired .notebook-image {
-            filter: grayscale(100%);
-        }
-
-        .expired-tag {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #ff4d4d;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            z-index: 2;
-        }
-
-        .expired .availability {
-            color: #ff4d4d;
-            font-weight: bold;
-        }
-
-        .expired .save {
-            background-color: #ccc !important;
-            cursor: not-allowed !important;
-        }
+        
     </style>
 </head>
 
 <body>
     <div class="page d-flex">
         <div class="sidebar bg-white p-20 p-relative">
-            <h3 class="p-relative txt-c mt-0">UniKey</h3>
+            <a href="landing.html">
+                <h3 class="p-relative txt-c mt-0">UniKey</h3>
+            </a>
             <ul>
                 <li>
                     <!-- href -->
@@ -164,14 +103,14 @@
         <div class="content w-full">
             <!-- Start Head -->
             <div class="head bg-white p-15 between-flex">
-                <div class="search p-relative">
-                    <input class="p-10" type="search" placeholder="Type A Keyword" />
+                <div class="user-display p-relative d-flex align-center">
+                    <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
+                    <span class="fs-14 fw-500">Tala Hammami</span> <!-- Replace with dynamic username -->
                 </div>
                 <div class="icons d-flex align-center">
                     <span class="notification p-relative">
-                        <i class="fa-solid fa-globe"></i>
-                        <i class="fa-solid fa-user"></i>
                         <i class="fa-regular fa-bell fa-lg"></i>
+                        <i class="fa-solid fa-right-from-bracket"></i>
                     </span>
                 </div>
             </div>
@@ -339,7 +278,7 @@
             </div>
         </div>
     </div>
-    <div id="card" class="new-card hidden">
+    <div id="card" class="new-card hidden" style="height: 1000px;">
         <h2>Add Item</h2>
         <form action="">
             <div class="form-group">
@@ -359,6 +298,10 @@
                     <option value="elec">Business</option>
                     <option value="clothes">Languages</option>
                 </select>
+            </div>
+            <div class="form-group" >
+                <label for="fn">Upload Image</label>
+                <input type="file" placeholder="Desciption of the item" name="fn">
             </div>
         </form>
         <div class="last-btn">

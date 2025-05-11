@@ -46,7 +46,7 @@
     transform: translateX(-50%);
     font-size: 13px;
     background-color: #314528;
-    color: #D9D8D5;
+    color: #f3f4e7;
     cursor: pointer;
 }
 .courses-page .course .info .title:hover{
@@ -106,7 +106,7 @@
     color: #768d6c;
 } */
 
-.reminder-icon::before {
+/* .reminder-icon::before {
     content: "Set Up Reminder";
     position: absolute;
     bottom: 9%;
@@ -121,16 +121,12 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-/* Show the tooltip message on hover */
+} 
 .reminder-icon:hover::before {
     opacity: 1;
-    /* Show the message */
     visibility: visible;
-    /* Show the message */
-}
-/* Tags Container */
+} */
+
 .tags {
     display: flex;
     flex-wrap: wrap;
@@ -138,7 +134,6 @@
     margin-top: 10px;
 }
 
-/* Individual Tag */
 .tag {
     padding: 5px 10px;
     background-color: #f0f0f0;

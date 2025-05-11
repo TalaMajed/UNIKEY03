@@ -4,78 +4,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniKey - Signup</title>
+    <title>UniKey - Sign Up</title>
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+    <link rel="shortcut icon" href="favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="favicon/site.webmanifest" />
+    <!-- css -->
     <link rel="stylesheet" href="css/login_signup.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/framework.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-    <header>
-        <div class="header-content">
-            <a href="landing.html"><img src="imgs/logos/2.png" alt="logo" class="logo"></a>
-            <h3>UniKey - SignUp</h3>
-            <i class="fa-solid fa-globe top-right-icon" title="Change The Language"></i>
+    <header class="new-header">
+        <div class="header-container">
+            <div class="logo-container">
+                <a href="landing.html" class="logo-link">
+                    <img src="imgs/logos/Unikey(large).jpg" alt="UniKey Logo" class="logo">
+                    <span class="brand-name">UniKey</span>
+                </a>
+            </div>
+            <div class="page-title">
+                <h1>Create Your Account</h1>
+                <div class="title-underline"></div>
+            </div>
         </div>
     </header>
 
-    <div class="sign">
-        <h2 class="form-title">SignUp</h2>
-        <form action="" method="post">
-            <div class="form-group">
-                <label for="fn">First Name</label>
-                <input type="text" id="fn" placeholder="First Name" name="fn">
+    <div class="main-content">
+        <div class="sign">
+            <h2 class="form-title">Get Started</h2>
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="fn">First Name</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="fn" placeholder="Enter your first name" name="fn" required>
+                        <i class="fa-solid fa-user input-icon"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ln">Last Name</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="ln" placeholder="Enter your last name" name="ln" required>
+                        <i class="fa-solid fa-user input-icon"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">University Email</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" placeholder="student@ju.edu.jo" name="email" required>
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pass">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="pass" placeholder="Create a password" name="pass" required>
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <i class="fa-solid fa-eye password-toggle" id="togglePassword1"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-pass">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="confirm-pass" placeholder="Confirm your password" name="confirm-pass"
+                            required>
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <i class="fa-solid fa-eye password-toggle" id="togglePassword2"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="degree">Faculty</label>
+                    <div class="input-wrapper">
+                        <select id="degree" name="degree" required>
+                            <option value="" disabled selected>Select your faculty</option>
+                            <option value="IT">King Abdullah II for Information Technology</option>
+                            <option value="Sci">Science</option>
+                            <option value="Agr">Agriculture</option>
+                            <option value="Eng">Engineering</option>
+                            <option value="Arts">Arts</option>
+                            <option value="Business">Business</option>
+                            <option value="Sharia">Sharia</option>
+                            <option value="EduS">Educational Sciences</option>
+                            <option value="Law">Law</option>
+                            <option value="PE">Physical Education</option>
+                            <option value="A&D">Arts and Design</option>
+                            <option value="IS">International Studies</option>
+                            <option value="FL">Foreign Languages</option>
+                            <option value="A&T">Archaeology and Tourism</option>
+                            <option value="Nurs">Nursing</option>
+                            <option value="Med">Medicine</option>
+                            <option value="Phar">Pharmacy</option>
+                            <option value="Dent">Dentistry</option>
+                            <option value="RS">Rehabilitation Sciences</option>
+                        </select>
+                        <i class="fa-solid fa-graduation-cap input-icon"></i>
+                    </div>
+                </div>
+                <div class="remember-me">
+                    <input type="checkbox" id="terms" class="ch" required>
+                    <label for="terms">I agree to the <a href="#" style="color: var(--olive);">Terms of Service</a> and
+                        <a href="#" style="color: var(--olive);">Privacy Policy</a></label>
+                </div>
+                <input type="submit" value="Sign Up" class="sub" name="insert">
+            </form>
+            <div class="links">
+                <p>Already have an account? <a href="login.html">Log in</a></p>
             </div>
-            <div class="form-group">
-                <label for="ln">Last Name</label>
-                <input type="text" id="ln" placeholder="Last Name" name="ln">
-            </div>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="*****@ju.edu.jo" name="email">
-            </div>
-            <div class="form-group">
-                <label for="pass">Password</label>
-                <input type="password" id="pass" placeholder="*******" name="pass">
-            </div>
-            <div class="form-group">
-                <label for="confirm-pass">Confirm Password</label>
-                <input type="password" id="confirm-pass" placeholder="*******" name="confirm-pass">
-            </div>
-            <div class="form-group">
-                <label for="degree">Faculty</label>
-                <select id="degree" name="degree">
-                    <option value="Sci">Science</option>
-                    <option value="Agr">Agriculture</option>
-                    <option value="Eng">Engineering</option>
-                    <option value="IT" selected>King Abdullah II for Information Technology</option>
-                    <option value="Arts">Arts</option>
-                    <option value="Business">Business</option>
-                    <option value="Sharia">Sharia</option>
-                    <option value="EduS">Educational Sciences</option>
-                    <option value="Law">Law</option>
-                    <option value="PE">Physical Education</option>
-                    <option value="A&D">Arts and Design</option>
-                    <option value="IS">International Studies</option>
-                    <option value="FL">Foreign Languages</option>
-                    <option value="A&T">Archaeology and Tourism</option>
-                    <option value="Nurs">Nursing</option>
-                    <option value="Med">Medicine</option>
-                    <option value="Phar">Pharmacy</option>
-                    <option value="Dent">Dentistry</option>
-                    <option value="RS">Rehabilitation Sciences</option>
-                </select>
-            </div>
-            <div class="form-group remember-me">
-                <input type="checkbox" id="remember" class="ch">
-                <label for="remember">I agree with Terms and Policy</label>
-            </div>
-            <input type="submit" value="Sign Up" class="sub" name="insert">
-        </form>
-        <p class="links"><a href="login.html">Already Have An Account? Login</a></p>
+        </div>
     </div>
+
+    <script>
+       // WARNING
+        const form = document.querySelector('form');
+            form.addEventListener('submit', goToPage);
+
+        function goToPage(event) {
+            event.preventDefault(); // stop form from submitting
+        window.location.href = "dashboard.html";
+        }
+        const togglePassword1 = document.querySelector('#togglePassword1');
+        const password1 = document.querySelector('#pass');
+        const togglePassword2 = document.querySelector('#togglePassword2');
+        const password2 = document.querySelector('#confirm-pass');
+
+        togglePassword1.addEventListener('click', function () {
+        const type = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+        password1.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+        });
+
+        togglePassword2.addEventListener('click', function () {
+        const type = password2.getAttribute('type') === 'password' ? 'text' : 'password';
+        password2.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+        });
+    </script>
+
+
 </body>
 
 </html>

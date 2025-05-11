@@ -9,100 +9,13 @@
     <!-- css -->
     <link rel="stylesheet" href="css/all.min.css" />
     <link rel="stylesheet" href="css/framework.css" />
-    <link rel="stylesheet" href="css/announcement.css" />
+    <link rel="stylesheet" href="css/event_admin.css" />
     <link rel="stylesheet" href="css/side.css" />
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
-    <style>
-        .latest-news {
-            background-color: #314528;
-            padding: 20px;
-            border-radius: 10px;
-            color: white;
-        }
 
-        .announcement-form input,
-        .announcement-form textarea,
-        .announcement-form select,
-        .announcement-form input[type="file"],
-        .announcement-form input[type="date"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .announcement-form button {
-            padding: 10px 20px;
-            background-color: #f6f6f6;
-            color: #314528;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .announcement-form button:hover {
-            background-color: #f3f4e7;
-        }
-
-        .announcement-list {
-            margin-top: 20px;
-        }
-
-        .announcement-item {
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-
-        .announcement-item h3 {
-            margin: 0 0 10px;
-        }
-
-        .announcement-item p {
-            margin: 0 0 10px;
-        }
-
-        .announcement-item img {
-            max-width: 100%;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-
-        .announcement-item .actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .announcement-item .actions button {
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .announcement-item .actions .edit-btn {
-            background-color: #314528;
-            color: white;
-        }
-
-        .announcement-item .actions .delete-btn {
-            background-color: #f44336;
-            color: white;
-        }
-        .attach{
-            display: flex ;
-        }
-        .attach-pin{
-            margin-top: 15px;
-        }
-    </style>
 </head>
 
 <body>
@@ -111,12 +24,7 @@
         <div class="sidebar bg-white p-20 p-relative">
             <h3 class="p-relative txt-c mt-0">Admin</h3>
             <ul>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings_admin.html">
-                        <i class="fa-regular fa-chart-bar fa-fw"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
+                
                 <li>
                     <a class=" d-flex align-center fs-14 c-black rad-6 p-10" href="ann_admin.html">
                         <i class="fa-solid fa-gear fa-fw"></i>
@@ -136,9 +44,36 @@
         <div class="content w-full full-content">
             <!-- Header -->
             <div class="head bg-white p-15 between-flex">
-                <div class="search p-relative">
-                    <input class="p-10" type="search" placeholder="Type A Keyword" />
+                <!-- Left side - User Name -->
+                <div class="user-display p-relative d-flex align-center">
+                    <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
+                    <span class="fs-14 fw-500">Admin</span> <!-- Replace with dynamic username -->
                 </div>
+            
+                <!-- Right side - Action Buttons -->
+                <div class="header-actions d-flex align-center gap-10">
+                    <!-- Dark/Light Mode Toggle -->
+                    <button id="themeToggle" class="mode-toggle btn-shape bg-transparent c-gray hover-c-main p-10">
+                        <i class="fa-solid fa-moon"></i> <!-- Default dark icon -->
+                        <span class="fs-14 ml-5">Dark</span>
+                    </button>
+            
+                    <!-- Language Selector -->
+                    <div class="language-select p-relative">
+                        <button id="languageToggle" class="btn-shape bg-transparent c-gray hover-c-main p-10">
+                            <i class="fa-solid fa-globe"></i>
+                            <span class="fs-14 ml-5">EN</span>
+                            <i class="fa-solid fa-chevron-down fs-12 ml-5"></i>
+                        </button>
+                        <ul class="language-dropdown hidden bg-white rad-6 shadow">
+                            <li><a href="#" data-lang="en">English</a></li>
+                            <li><a href="#" data-lang="ar">العربية</a></li>
+                        </ul>
+                    </div>
+                    <button id="logoutBtn" class="btn-shape bg-red c-white hover-opacity p-10">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span class="fs-14 ml-5">Logout</span>   </button>
+                </div>      
             </div>
 
             <!-- Main Content -->
@@ -181,94 +116,7 @@
         </div>
     </div>
 
-    <script>
-        // Sample data to store announcements
-        let announcements = [];
-
-        // Function to add a new announcement
-        function addAnnouncement() {
-            const title = document.getElementById('announcement-title').value;
-            const des = document.getElementById('announcement-des').value;
-            const date = document.getElementById('announcement-date').value;
-            const category = document.getElementById('announcement-category').value;
-            const llocation = document.getElementById('ann-location').value;
-            const supervisor = document.getElementById('supervisor').value;
-            const image = document.getElementById('announcement-image').files[0];
-
-            if (title && date && category) {
-                const newAnnouncement = {
-                    id: Date.now(), // Unique ID for each announcement
-                    title: title,
-                    des: des,
-                    date: date,
-                    llocation: llocation,
-                    supervisor: supervisor,
-                    category: category,
-                    image: image ? URL.createObjectURL(image) : null, // Store image URL
-                };
-                announcements.push(newAnnouncement);
-                renderAnnouncements();
-                clearForm();
-            } else {
-                alert('Please fill in all fields.');
-            }
-        }
-
-        // Function to delete an announcement
-        function deleteAnnouncement(id) {
-            announcements = announcements.filter(announcement => announcement.id !== id);
-            renderAnnouncements();
-        }
-
-        // Function to render all announcements
-        function renderAnnouncements() {
-            const announcementList = document.getElementById('announcement-list');
-            announcementList.innerHTML = '<h2>Existing Events</h2>';
-
-            announcements.forEach(announcement => {
-                const announcementItem = document.createElement('div');
-                announcementItem.className = 'announcement-item';
-                announcementItem.innerHTML = `
-                    <h3>${announcement.title}</h3>
-                    <p><strong style="text-decoration: underline;">Description:</strong> ${announcement.des}</p>
-                    <p><strong style="text-decoration: underline;">Date:</strong> ${announcement.date}</p>
-                    <p><strong style="text-decoration: underline;">Location:</strong> ${announcement.llocation}</p>
-                    <p><strong style="text-decoration: underline;">Supervisor:</strong> ${announcement.supervisor}</p>
-                    <p><strong style="text-decoration: underline;">Category:</strong> ${announcement.category}</p>
-                    ${announcement.image ? `<img src="${announcement.image}" alt="Announcement Image" />` : ''}
-                    <div class="actions">
-                        <button class="edit-btn" onclick="editAnnouncement(${announcement.id})">Edit</button>
-                        <button class="delete-btn" onclick="deleteAnnouncement(${announcement.id})">Delete</button>
-                    </div>
-                `;
-                announcementList.appendChild(announcementItem);
-            });
-        }
-
-        // Function to clear the form after adding an announcement
-        function clearForm() {
-            document.getElementById('announcement-title').value = '';
-            document.getElementById('announcement-date').value = '';
-            document.getElementById('announcement-category').value = '';
-            document.getElementById('announcement-image').value = '';
-            document.getElementById('ann-location').value = '';
-            document.getElementById('supervisor').value = '';
-        }
-
-        // Function to edit an announcement (placeholder for now)
-        function editAnnouncement(id) {
-            const announcement = announcements.find(announcement => announcement.id === id);
-            if (announcement) {
-                document.getElementById('announcement-title').value = announcement.title;
-                document.getElementById('announcement-date').value = announcement.date;
-                document.getElementById('announcement-category').value = announcement.category;
-                deleteAnnouncement(id); // Remove the old announcement
-            }
-        }
-
-        // Initial render of announcements
-        renderAnnouncements();
-    </script>
+    <script src="js/event_admin.js"> </script>
 </body>
 
 </html>

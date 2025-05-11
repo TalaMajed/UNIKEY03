@@ -67,6 +67,9 @@
 
 .see{
     cursor: pointer;
+    color: red;
+    background-color: #314528;
+
 }
 .see:hover{
     color: #d1d3c4;
@@ -84,13 +87,3 @@
     border-radius: 3px;
     font-size: 12px;
 }
-/* .expired {
-    opacity: 0.6;
-    background-color: #f0f0f0;
-}
-.time{
-    color: red;
-    position: relative;
-    bottom: -10px;
-    z-index: 10;
-} */

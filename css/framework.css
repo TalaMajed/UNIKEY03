@@ -1,21 +1,25 @@
+
 :root {
-  --blue-color: #0075ff;
-  --blue-alt-color: #0d69d5;
-  --orange-color: #f59e0b;
-  --green-color: #22c55e;
-  --red-color: #f44336;
-  --grey-color: #888;
-  --olive-color: #314528;
-  --beige-color: #f3f4e7;
+  --olive: #314528;
+  --olive-light: #4a5d3d;
+  --beige-light: #f3f4e7;
+  --beige-medium: #d1d3c4;
+  --beige-dark: #b8baaa;
+  --white: #ffffff;
+  --error: #d32f2f;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: var(--olive);
+  background-color: var(--beige-light);
+  line-height: 1.6;
 }
 
 * {
   box-sizing: border-box;
-}
-
-body {
-  font-family: "Open Sans", sans-serif;
-  margin: 0;
 }
 
 *:focus {
@@ -194,7 +198,7 @@ ul {
   background-color: var(--green-color);
 }
 .bg-olive {
-  background-color: var(--olive-color);
+  background-color: var(--olive);
 }
 .bg-orange {
   background-color: var(--orange-color);
@@ -289,8 +293,10 @@ ul {
   justify-content: space-between;
 }
 .btn-shape {
-  padding: 4px 10px;
+  padding: 10px 15px;
   border-radius: 6px;
+  margin-right: 10px;
+
 }
 .bot-btn{
   bottom: -35px;
