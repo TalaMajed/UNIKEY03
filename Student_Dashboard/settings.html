@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniKey - Settings</title>
+  <!-- favicon -->
+  <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+  <link rel="shortcut icon" href="favicon/favicon.ico" />
+  <!-- css -->
+  <link rel="stylesheet" href="css/settings.css">
+  <link rel="stylesheet" href="css/framework.css">
+  <link rel="stylesheet" href="css/side.css">
+  <link rel="stylesheet" href="css/all.min.css">
+
+  <!-- fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+   
+  </style>
+</head>
+
+<body>
+  <div class="page d-flex">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar bg-white p-20 p-relative">
+      <a href="landing.html">
+        <h3 class="p-relative txt-c mt-0">UniKey</h3>
+      </a>
+      <ul>
+        <li>
+          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
+            <i class="fa-regular fa-chart-bar fa-fw"></i>
+            <span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
+            <i class="fa-solid fa-gear fa-fw"></i>
+            <span>Settings</span>
+          </a>
+        </li>
+        <li>
+          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
+            <i class="fa-solid fa-map"></i>
+            <span>Map</span>
+          </a>
+        </li>
+        <li>
+          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Lost/Found</span>
+          </a>
+        </li>
+        <li>
+          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
+            <i class="fa-solid fa-door-open"></i>
+            <span>Portals</span>
+          </a>
+        </li>
+        <li>
+          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
+            <i class="fa-regular fa-calendar"></i>
+            <span>Events</span>
+          </a>
+        </li>
+        <li>
+          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
+            <i class="fa-solid fa-bullhorn"></i>
+            <span>Announcements</span>
+          </a>
+        </li>
+        <li>
+          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
+            <i class="fa-solid fa-store"></i>
+            <span>Marketplace</span>
+          </a>
+        </li>
+        <li>
+          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Help</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content w-full">
+      <!-- Header -->
+      <div class="head bg-white p-15 between-flex">
+        <div class="user-display p-relative d-flex align-center">
+          <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
+          <span class="fs-14 fw-500">Tala Hammami</span> <!-- Replace with dynamic username -->
+        </div>
+        <div class="icons d-flex align-center">
+          <span class="notification p-relative">
+            <i class="fa-regular fa-bell fa-lg"></i>
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </span>
+        </div>
+      </div>
+
+      <h1 class="p-relative">Settings</h1>
+
+      <div class="settings-container">
+        <!-- Account Settings -->
+        <div class="settings-box">
+          <h2 class="settings-title"><i class="fa-solid fa-user"></i> Account Settings</h2>
+          <p class="settings-description">Manage your profile information</p>
+
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" value="Tala" placeholder="First Name">
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" value="Hammami" placeholder="Last Name">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" value="tal0217145@ju.edu.jo" placeholder="Email">
+          </div>
+
+          <div class="form-group">
+            <label for="faculty">Faculty</label>
+            <select id="faculty">
+              <option value="it">Information Technology</option>
+              <option value="engineering" selected>Engineering</option>
+              <option value="business">Business Administration</option>
+              <option value="medicine">Medicine</option>
+              <option value="arts">Arts & Humanities</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="major">Major</label>
+            <select id="major">
+              <option value="cs">Computer Science</option>
+              <option value="cis" selected>Computer Information Systems</option>
+              <option value="ai">Artificial Intelligence</option>
+              <option value="ds">Data Science</option>
+              <option value="cyber">Cyber Security</option>
+            </select>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-label">Profile Picture</span>
+              <p class="setting-description">Update your profile photo</p>
+            </div>
+            <button class="save-changes-btn">Change</button>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-label">Change Password</span>
+              <p class="setting-description">Last changed 3 months ago</p>
+            </div>
+            <button class="save-changes-btn"><a href="change-pass.html" style="color: #f3f4e7;">Change</a></button>
+          </div>
+        </div>
+
+        <!-- Notification Preferences -->
+        <div class="settings-box">
+          <h2 class="settings-title"><i class="fa-solid fa-bell"></i> Notification Preferences</h2>
+          <p class="settings-description">Choose how you receive notifications</p>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-label">Email Notifications</span>
+              <p class="setting-description">Receive notifications via email</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="emailNotifications" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-label">Push Notifications</span>
+              <p class="setting-description">Receive notifications on your device</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="pushNotifications" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item notification-type" id="announcementNotifications">
+            <div class="setting-info">
+              <span class="setting-label">Announcements</span>
+              <p class="setting-description">University announcements</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item notification-type" id="eventNotifications">
+            <div class="setting-info">
+              <span class="setting-label">Events</span>
+              <p class="setting-description">Upcoming university events</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item notification-type" id="marketplaceNotifications">
+            <div class="setting-info">
+              <span class="setting-label">Marketplace</span>
+              <p class="setting-description">New items in marketplace</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item notification-type" id="lostFoundNotifications">
+            <div class="setting-info">
+              <span class="setting-label">Lost/Found</span>
+              <p class="setting-description">Updates on lost and found items</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Privacy Settings -->
+        <div class="settings-box">
+          <h2 class="settings-title"><i class="fa-solid fa-lock"></i> Privacy Settings</h2>
+          <p class="settings-description">Manage your account privacy and security</p>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-label">Log Out of All Devices</span>
+              <p class="setting-description">Sign out from all logged in devices</p>
+            </div>
+            <button class="save-changes-btn">Log Out</button>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-label">Deactivate Account</span>
+              <p class="setting-description">Temporarily Disable Access</p>
+            </div>
+            <button class="save-changes-btn">Deactivate</button>
+          </div>
+        </div>
+
+        <!-- Application Customization -->
+        <div class="settings-box">
+          <h2 class="settings-title"><i class="fa-solid fa-paintbrush"></i> Application Customization</h2>
+          <p class="settings-description">Personalize your app experience</p>
+        
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-label">Theme</span>
+              <p class="setting-description">Choose between light and dark mode</p>
+            </div>
+            <div class="input-wrapper">
+            <select id="themePreference" class="custom-select ">
+              <option value="light">Light Mode</option>
+              <option value="dark">Dark Mode</option>
+              <option value="system">System Default</option>
+            </select>
+            </div>
+          </div>
+        
+          <div class="setting-item">
+            <div class="setting-info">
+              <span class="setting-label">Language</span>
+              <p class="setting-description">Select your preferred language</p>
+            </div>
+            <div class="input-wrapper">
+              <select id="languagePreference" class="custom-select ">
+                <option value="en">English</option>
+                <option value="ar">Arabic</option>
+                <option value="fr">French</option>
+                <option value="es">Spanish</option>
+              </select> 
+              </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Save Changes Button -->
+      <div class="save-changes">
+        <button class="save-changes-btn">
+          <i class="fas fa-save"></i> Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Notification logic
+    const emailNotifications = document.getElementById('emailNotifications');
+    const pushNotifications = document.getElementById('pushNotifications');
+    const notificationTypes = document.querySelectorAll('.notification-type');
+
+    function updateNotificationTypes() {
+      const anyEnabled = emailNotifications.checked || pushNotifications.checked;
+
+      notificationTypes.forEach(type => {
+        if (anyEnabled) {
+          type.classList.remove('disabled-setting');
+          type.querySelector('input').disabled = false;
+        } else {
+          type.classList.add('disabled-setting');
+          type.querySelector('input').disabled = true;
+          type.querySelector('input').checked = false;
+        }
+      });
+    }
+
+    emailNotifications.addEventListener('change', updateNotificationTypes);
+    pushNotifications.addEventListener('change', updateNotificationTypes);
+
+    // Initialize on page load
+    updateNotificationTypes();
+
+    // Save changes button functionality
+    document.querySelector('.save-changes-btn').addEventListener('click', function () {
+      // Here you would typically send the form data to your backend
+      alert('Your settings have been saved successfully!');
+    });
+  </script>
+</body>
+
+</html>
