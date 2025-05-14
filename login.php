@@ -15,11 +15,20 @@
             $row = mysqli_fetch_array($query);
 
             $id                = $row['id'];
+            $active            = $row['active'];
             $_SESSION['S_Log'] = $id;
 
-            echo '<script language="JavaScript">
-          document.location="./Student_Dashboard/";
-          </script>';
+            if ($active == 1) {
+
+                echo '<script language="JavaScript">
+                document.location="./Student_Dashboard/";
+                </script>';
+            } else {
+
+                echo '<script language="JavaScript">
+                alert ("Acount Is Deativated !")
+                </script>';
+            }
 
         } else {
 

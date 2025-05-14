@@ -298,7 +298,7 @@
               <span class="setting-label">Log Out of All Devices</span>
               <p class="setting-description">Sign out from all logged in devices</p>
             </div>
-            <button class="save-changes-btn">Log Out</button>
+            <a href="./Logout.php" class="save-changes-btn">Log Out</a>
           </div>
 
           <div class="setting-item">
@@ -306,7 +306,7 @@
               <span class="setting-label">Deactivate Account</span>
               <p class="setting-description">Temporarily Disable Access</p>
             </div>
-            <button class="save-changes-btn">Deactivate</button>
+            <a href="./Deactivate.php" class="save-changes-btn">Deactivate</a>
           </div>
         </div>
 
