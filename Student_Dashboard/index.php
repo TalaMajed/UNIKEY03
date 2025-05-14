@@ -7,8 +7,26 @@
 
     $now = date('Y-m-d H:i:s');
     $fmt = '%Y-%m-%dT%H:%i';
+    
+    $sql = "
+        UPDATE `events`
+        SET `status` = 'Expired'
+        WHERE `status` = 'Active'
+          AND STR_TO_DATE(`date`, '$fmt') < '$now'
+    ";
+    
+    mysqli_query($con, $sql);
 
-    // mysqli_query($con, "UPDATE events SET status = 'Expired' WHERE status = 'Active' AND STR_TO_DATE(date, '$fmt') <= $now");
+
+    $fmtDate = '%Y-%m-%d';
+
+    $sql2 = "
+      UPDATE `announcements`
+      SET `status` = 'Expired'
+      WHERE `status` = 'Available'
+        AND STR_TO_DATE(`date`, '$fmtDate') < CURDATE()
+    ";
+    mysqli_query($con, $sql2);
 
     if (! $S_ID) {
 
@@ -227,7 +245,7 @@
                 <div class="items-grid">
 
                 <?php
-                    $sql1 = mysqli_query($con, "SELECT * FROM lost_founds WHERE student_id = '$S_ID' ORDER BY id DESC");
+                    $sql1 = mysqli_query($con, "SELECT * FROM lost_founds WHERE student_id = '$S_ID' AND status = 1 ORDER BY id DESC");
 
                     while ($row1 = mysqli_fetch_array($sql1)) {
 
@@ -240,12 +258,12 @@
                     ?>
                     <div class="item-card">
                         <div class="item-actions">
-                            <button class="action-btn" title="Edit">
+                            <a href="./edit-item.php?item_id=<?php echo $lost_id?>" class="action-btn" title="Edit">
                                 <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button class="action-btn delete-item-btn" title="Delete" data-item="Student ID">
+                            </a>
+                            <a href="./FoundItem.php?item_id=<?php echo $lost_id?>" class="action-btn delete-item-btn" title="Delete" data-item="Student ID">
                                 <i class="fa-solid fa-trash-can"></i>
-                            </button>
+                            </a>
                         </div>
                         <h3>Found:                                                                                                                                         <?php echo $name ?></h3>
                         <p><?php echo $last_seen_in ?></p>
@@ -288,7 +306,7 @@
 
                 <div class="items-grid">
                 <?php
-                    $sql1 = mysqli_query($con, "SELECT * FROM marketplaces WHERE student_id = '$S_ID' ORDER BY id DESC");
+                    $sql1 = mysqli_query($con, "SELECT * FROM marketplaces WHERE student_id = '$S_ID' AND status = 'Available' ORDER BY id DESC");
 
                     while ($row1 = mysqli_fetch_array($sql1)) {
 
@@ -379,7 +397,7 @@
                 <div class="items-grid">
 
                 <?php
-                    $sql5555 = mysqli_query($con, "SELECT * FROM announcements WHERE is_important = 1");
+                    $sql5555 = mysqli_query($con, "SELECT * FROM announcements WHERE is_important = 1 AND status = 'Available'");
 
                     while ($row5555 = mysqli_fetch_array($sql5555)) {
 
