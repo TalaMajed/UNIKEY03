@@ -1,3 +1,31 @@
+<?php
+    session_start();
+
+    include "../Connect.php";
+
+    $S_ID   = $_SESSION['S_Log'];
+    $filter = $_GET['filter'];
+    $place  = $_GET['place'];
+
+    if (! $S_ID) {
+
+        echo '<script language="JavaScript">
+     document.location="../login.php";
+    </script>';
+
+    } else {
+
+        $sql1 = mysqli_query($con, "select * from students where id='$S_ID'");
+        $row1 = mysqli_fetch_array($sql1);
+
+        $name  = $row1['fname'] . ' ' . $row1['lname'];
+        $email = $row1['email'];
+
+    }
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,62 +59,7 @@
             <a href="landing.html">
                 <h3 class="p-relative txt-c mt-0">UniKey</h3>
             </a>
-            <ul>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
-                        <i class="fa-regular fa-chart-bar fa-fw"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
-                        <i class="fa-solid fa-gear fa-fw"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
-                        <i class="fa-solid fa-map"></i>
-                        <span>Map</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <span>Lost/Found</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
-                        <i class="fa-solid fa-door-open"></i>
-                        <span>Portals</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
-                        <i class="fa-regular fa-calendar"></i>
-                        <span>Events</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
-                        <i class="fa-solid fa-bullhorn"></i>
-                        <span>Announcements</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
-                        <i class="fa-solid fa-store"></i>
-                        <span>Marketplace</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <span>Help</span>
-                    </a>
-                </li>
-            </ul>
+            <?php require './asaid.php'?>
         </div>
 
         <!-- Main Content -->
@@ -148,7 +121,7 @@
             });
         });
 
-        
+
         function renderFoundItemForm(container, data) {
             container.innerHTML = `
                 <h2><i class="fa-solid fa-magnifying-glass"></i> Edit Found Item</h2>
@@ -157,12 +130,12 @@
                         <label for="title">Title</label>
                         <input type="text" id="title" name="title" value="${data.title || 'Found: Student ID'}" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="description">Description</label>
                         <textarea id="description" name="description" required>${data.description || 'Found near the library entrance. ID belongs to Ahmad Mohammad.'}</textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="faculty">Faculty</label>
                         <select id="faculty" name="faculty">
@@ -182,13 +155,13 @@
                             <option value="Arts" ${data.faculty === 'Arts' ? 'selected' : ''}>Arts</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="image">Upload Image</label>
                         <input type="file" id="image" name="image">
                         ${data.image ? `<img src="${data.image}" class="image-preview">` : ''}
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-cancel" onclick="window.location.href='dashboard.html'">Cancel</button>
                         <button type="submit" class="btn btn-save">Save Changes</button>
@@ -205,12 +178,12 @@
                         <label for="title">Title</label>
                         <input type="text" id="title" name="title" value="${data.title || 'Calculus Textbook'}" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="description">Description</label>
                         <textarea id="description" name="description" required>${data.description || 'Excellent condition, barely used'}</textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="category">Category</label>
                         <select id="category" name="category">
@@ -221,15 +194,15 @@
                             <option value="Other" ${data.category === 'Other' ? 'selected' : ''}>Other</option>
                         </select>
                     </div>
-                    
-                 
-                    
+
+
+
                     <div class="form-group">
                         <label for="image">Upload Image</label>
                         <input type="file" id="image" name="image">
                         ${data.image ? `<img src="${data.image}" class="image-preview">` : ''}
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-cancel" onclick="window.location.href='dashboard.html'">Cancel</button>
                         <button type="submit" class="btn btn-save">Save Changes</button>
@@ -246,18 +219,18 @@
                         <label for="title">Title</label>
                         <input type="text" id="title" name="title" value="${data.title || 'Faculty Cafeteria'}" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="description">Description</label>
                         <textarea id="description" name="description" required>${data.description || 'IT Building Cafeteria'}</textarea>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="image">Upload Image</label>
                         <input type="file" id="image" name="image">
                         ${data.image ? `<img src="${data.image}" class="image-preview">` : ''}
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="button" class="btn btn-cancel" onclick="window.location.href='dashboard.html'">Cancel</button>
                         <button type="submit" class="btn btn-save">Save Changes</button>

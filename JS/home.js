@@ -132,13 +132,17 @@ document.querySelectorAll('.action-btn').forEach(button => {
             if (itemType === 'marketplace') {
                 // Marketplace description is in the second p tag
                 description = card.querySelector('.marketplace-info p')?.textContent || '';
+                const id = document.getElementById('marketID').textContent
+               
+                window.location.href = `../Student_Dashboard/Edit-Marketplace.php?marketplace_id=${id}`
+                
             } else {
                 // Other items use the first p tag
                 description = card.querySelector('p')?.textContent || '';
             }
             
             // Redirect to edit page with parameters
-            window.location.href = `edit-item.html?type=${itemType}&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`;
+            // window.location.href = `edit-item.php?type=${itemType}&title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`;
         });
     }
 });

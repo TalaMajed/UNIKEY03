@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2025 at 09:01 PM
+-- Generation Time: May 14, 2025 at 10:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -65,7 +65,7 @@ CREATE TABLE `announcements` (
 --
 
 INSERT INTO `announcements` (`id`, `category_id`, `title`, `date`, `content`, `description`, `image`, `status`, `is_important`) VALUES
-(1, 6, 'Announcement2222', '2025-05-05', 'Content Content Content Content Content Content Content ', 'Desc Desc Desc Desc Desc Desc Desc ', 'Announcements_Images/1746472016_farmer.jpg', 'Available', 1),
+(1, 6, 'Announcement2222', '2025-05-05', 'Content Content Content Content Content Content Content ', 'Desc Desc Desc Desc Desc Desc Desc ', 'Announcements_Images/1746472016_farmer.jpg', 'Expired', 1),
 (2, 6, 'important ann 11111', '2025-05-14', 'Content Content Content Content Content Content Content', 'desc desc desc desc desc desc', 'Announcements_Images/1747234236_driving.jpg', 'Available', 0);
 
 -- --------------------------------------------------------
@@ -141,9 +141,9 @@ CREATE TABLE `events` (
 
 INSERT INTO `events` (`id`, `category_id`, `name`, `location`, `supervisor`, `description`, `image`, `date`, `count`, `status`, `created_at`) VALUES
 (2, 8, 'Event 1', 'loc', 'supervisor', 'lorem lorem lorem lorem lorem lorem', NULL, '2025-05-04T22:44', 22, 'Deleted', '2025-05-04 19:44:22'),
-(3, 1, 'sss', 'sss', 'ssss', 'ddd', 'Events_Images/1746388014_farmer.jpg', '2025-05-04T22:44', 2, 'Active', '2025-05-04 19:46:54'),
+(3, 1, 'sss', 'sss', 'ssss', 'ddd', 'Events_Images/1746388014_farmer.jpg', '2025-05-04T22:44', 2, 'Expired', '2025-05-04 19:46:54'),
 (4, 7, 'Event 1222', 'loc', 'supervisor', 'description descriptiondescriptiondescription', 'Events_Images/1746388111_farmer.jpg', '2025-05-04T22:48', 22, 'Deleted', '2025-05-04 19:48:31'),
-(5, 6, 'New Event 12222', 'here', 'sup', 'desc desc desc desc desc desc', 'Events_Images/1747235644_download.png', '2025-05-14T18:13', 5, 'Active', '2025-05-14 15:14:04');
+(5, 6, 'New Event 12222', 'here', 'sup', 'desc desc desc desc desc desc', 'Events_Images/1747235644_download.png', '2025-05-14T18:13', 5, 'Expired', '2025-05-14 15:14:04');
 
 -- --------------------------------------------------------
 
@@ -169,7 +169,7 @@ CREATE TABLE `lost_founds` (
 --
 
 INSERT INTO `lost_founds` (`id`, `category_id`, `place_id`, `student_id`, `name`, `image`, `type`, `status`, `last_seen_in`, `created_at`) VALUES
-(2, 4, 2, 2, 'Test 1', 'Losts_Images/images.jpeg', NULL, 1, NULL, '2025-05-14 17:26:15');
+(2, 4, 2, 2, 'Test 1', 'Losts_Images/images.jpeg', NULL, 3, NULL, '2025-05-14 17:26:15');
 
 -- --------------------------------------------------------
 
@@ -215,7 +215,26 @@ CREATE TABLE `marketplaces` (
 --
 
 INSERT INTO `marketplaces` (`id`, `category_id`, `student_id`, `department_id`, `name`, `description`, `image`, `status`, `intresets_counts`, `created_at`) VALUES
-(3, 3, 2, 2, 'market', 'desc desc desc desc', 'MarketPlaces_Images/images.jpeg', 'Available', 0, '2025-05-14 18:47:49');
+(3, 3, 2, 2, 'market', 'desc desc desc desc', 'MarketPlaces_Images/images.jpeg', 'Expired', 1, '2025-05-14 18:47:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `marketplace_interestes`
+--
+
+CREATE TABLE `marketplace_interestes` (
+  `id` int(11) NOT NULL,
+  `marketplace_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `marketplace_interestes`
+--
+
+INSERT INTO `marketplace_interestes` (`id`, `marketplace_id`, `student_id`) VALUES
+(1, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -261,7 +280,7 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `department_id`, `major_id`, `fname`, `lname`, `email`, `password`, `image`, `otp_code`, `active`, `created_at`) VALUES
-(2, 2, 2, 'Moh11', 'Maj', 'mmajali45@gmail.com', '25f9e794323b453885f5181f1b624d0b', 'Students_Images/1747242223_images.jpeg', '9571', 1, '2025-05-13 19:02:18');
+(2, 2, 2, 'Moh11', 'Maj', 'mmajali45@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'Students_Images/1747242223_images.jpeg', '9571', 1, '2025-05-13 19:02:18');
 
 -- --------------------------------------------------------
 
@@ -343,6 +362,14 @@ ALTER TABLE `marketplaces`
   ADD KEY `department_id_marketplace_FK` (`department_id`);
 
 --
+-- Indexes for table `marketplace_interestes`
+--
+ALTER TABLE `marketplace_interestes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `marketplace_id_FK` (`marketplace_id`),
+  ADD KEY `student_id_FK_inter` (`student_id`);
+
+--
 -- Indexes for table `places`
 --
 ALTER TABLE `places`
@@ -417,6 +444,12 @@ ALTER TABLE `marketplaces`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `marketplace_interestes`
+--
+ALTER TABLE `marketplace_interestes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `places`
 --
 ALTER TABLE `places`
@@ -465,6 +498,13 @@ ALTER TABLE `marketplaces`
   ADD CONSTRAINT `category_id_marketplace_FK` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   ADD CONSTRAINT `department_id_marketplace_FK` FOREIGN KEY (`department_id`) REFERENCES `departments` (`id`),
   ADD CONSTRAINT `student_id_marketplace_FK` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`);
+
+--
+-- Constraints for table `marketplace_interestes`
+--
+ALTER TABLE `marketplace_interestes`
+  ADD CONSTRAINT `marketplace_id_FK` FOREIGN KEY (`marketplace_id`) REFERENCES `marketplaces` (`id`),
+  ADD CONSTRAINT `student_id_FK_inter` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`);
 
 --
 -- Constraints for table `students`
