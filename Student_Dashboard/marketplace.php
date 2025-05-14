@@ -16,10 +16,9 @@
 
     } else if ($category_id_selected) {
 
-        
         $marketplacesSql = "SELECT * from marketplaces WHERE category_id = '$category_id_selected' ORDER BY id DESC";
 
-    }else if ($department_id_selected) {
+    } else if ($department_id_selected) {
 
         $marketplacesSql = "SELECT * from marketplaces WHERE department_id = '$department_id_selected' ORDER BY id DESC";
 
@@ -143,7 +142,7 @@
 
                         ?>
 
-<option value="<?php echo $department_id_filter ?>" <?php echo $department_id_filter == $department_id_selected ? 'selected' : ''?>><?php echo $department_name_filter ?></option>
+<option value="<?php echo $department_id_filter ?>"<?php echo $department_id_filter == $department_id_selected ? 'selected' : '' ?>><?php echo $department_name_filter ?></option>
 <?php
 }?>
                 </select>
@@ -160,7 +159,7 @@
 
                         ?>
 
-<option value="<?php echo $category_id_filter ?>" <?php echo $category_id_filter == $category_id_selected ? 'selected' : ''?>><?php echo $category_name_filter ?></option>
+<option value="<?php echo $category_id_filter ?>"<?php echo $category_id_filter == $category_id_selected ? 'selected' : '' ?>><?php echo $category_name_filter ?></option>
 <?php
 }?>
                 </select>
@@ -168,8 +167,8 @@
 
                 <script>
 
-                        let categoryId =                                                                                 <?php echo json_encode($category_id_selected ?? null); ?>;
-                        let depId =                                                                       <?php echo json_encode($department_id_selected ?? null); ?>;
+                        let categoryId =                                                                                                                                                                 <?php echo json_encode($category_id_selected ?? null); ?>;
+                        let depId =                                                                                                                                             <?php echo json_encode($department_id_selected ?? null); ?>;
 
 
                         document.getElementById('filter-type').addEventListener('change', function() {
@@ -246,8 +245,8 @@
 
 
 <div class="contact">
-    <button class="save fs-14 bg-olive c-beige b-none w-fit btn-shape mt-10" id="btn-found"
-        style="cursor: pointer;">Contact</button>
+    <a href="./SetInterested.php?marketplace_id=<?php echo $marketplace_id ?>" class="save fs-14 bg-olive c-beige b-none w-fit btn-shape mt-10" id="btn-found"
+        style="cursor: pointer;">Set Interested</a>
 </div>
 
 <?php }?>
