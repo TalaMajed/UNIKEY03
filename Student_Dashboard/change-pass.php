@@ -1,3 +1,58 @@
+<?php
+    session_start();
+
+    include "../Connect.php";
+
+    $S_ID = $_SESSION['S_Log'];
+
+    if (! $S_ID) {
+
+        echo '<script language="JavaScript">
+     document.location="../login.php";
+    </script>';
+
+    } else {
+
+        $sql1 = mysqli_query($con, "select * from students where id='$S_ID'");
+        $row1 = mysqli_fetch_array($sql1);
+
+        $name = $row1['fname'] . ' ' . $row1['lname'];
+
+        if (isset($_POST['Submit'])) {
+
+            $student_id       = $_POST['student_id'];
+            $password         = md5($_POST['password']);
+            $confirm_password = md5($_POST['confirm_password']);
+
+            if ($password != $confirm_password) {
+
+                echo "<script language='JavaScript'>
+                alert ('Passwords does not match !');
+           </script>";
+
+            } else {
+
+                $stmt = $con->prepare("UPDATE students SET password = ? WHERE id = ?");
+
+                $stmt->bind_param("si", $password, $student_id);
+                $stmt->execute();
+
+
+                echo '<script language="JavaScript">
+                alert ("Password Changed !")
+                </script>';
+
+                echo '<script language="JavaScript">
+                  document.location="./change-pass.php";
+                  </script>';
+
+            }
+        }
+
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,16 +86,16 @@
                 width: 600px;
                 max-width: 90%;
             }
-        
+
             .password-form-container {
                 width: 100%;
             }
-        
+
             .password-input {
                 position: relative;
                 margin-bottom: 20px;
             }
-        
+
             .password-input input {
                 width: 100%;
                 padding: 12px 40px 12px 15px;
@@ -49,12 +104,12 @@
                 font-size: 16px;
                 transition: border-color 0.3s;
             }
-        
+
             .password-input input:focus {
                 border-color: #314528;
                 outline: none;
             }
-        
+
             .toggle-password {
                 position: absolute;
                 right: 15px;
@@ -64,29 +119,29 @@
                 color: #777;
                 transition: color 0.2s;
             }
-        
+
             .toggle-password:hover {
                 color: #314528;
             }
-        
+
             .match-indicator {
                 font-size: 13px;
                 margin-top: 5px;
                 color: #314528;
                 display: none;
             }
-        
+
             .match-indicator i {
                 margin-right: 5px;
             }
-        
+
             .form-actions {
                 display: flex;
                 justify-content: flex-end;
                 gap: 15px;
                 margin-top: 25px;
             }
-        
+
             .btn-shape {
                 padding: 10px 20px;
                 border-radius: 6px;
@@ -94,38 +149,38 @@
                 cursor: pointer;
                 transition: all 0.2s;
             }
-        
+
             .cancel-btn {
                 background-color: #f1f1f1;
                 border: 1px solid #ddd;
                 color: #333;
             }
-        
+
             .cancel-btn:hover {
                 background-color: #e5e5e5;
             }
-        
+
             .confirm-btn {
                 background-color: #314528;
                 color: white;
                 border: none;
             }
-        
+
             .confirm-btn:hover {
                 background-color: #1e2a1a;
             }
-        
+
             /* Responsive adjustments */
             @media (max-width: 600px) {
                 .change-password-section {
                     padding: 20px;
                     width: 90%;
                 }
-        
+
                 .form-actions {
                     flex-direction: column;
                 }
-        
+
                 .btn-shape {
                     width: 100%;
                 }
@@ -139,68 +194,7 @@
             <a href="landing.html">
                 <h3 class="p-relative txt-c mt-0">UniKey</h3>
             </a>
-            <ul>
-                <li>
-                    <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
-                        <i class="fa-regular fa-chart-bar fa-fw"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
-                        <i class="fa-solid fa-gear fa-fw"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
-                        <i class="fa-solid fa-map"></i>
-                        <span>Map</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <span>Lost/Found</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
-                        <i class="fa-solid fa-door-open"></i>
-                        <span>Portals</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
-                        <i class="fa-regular fa-calendar"></i>
-                        <span>Events</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
-                        <i class="fa-solid fa-bullhorn"></i>
-                        <span>Announcements</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
-                        <i class="fa-solid fa-store"></i>
-                        <span>Marketplace</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <span>Help</span>
-                    </a>
-                </li>
-                <li class="logout-item">
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="#" id="logoutBtn">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>Log Out</span>
-                    </a>
-                </li>
-            </ul>
+            <?php require './asaid.php'?>
         </div>
 
         <!-- Main Content -->
@@ -209,7 +203,7 @@
             <div class="head bg-white p-15 between-flex">
                 <div class="user-display p-relative d-flex align-center">
                     <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
-                    <span class="fs-14 fw-500">Tala Hammami</span> <!-- Replace with dynamic username -->
+                    <span class="fs-14 fw-500"><?php echo $name ?></span> <!-- Replace with dynamic username -->
                 </div>
                 <div class="icons d-flex align-center">
                     <span class="notification p-relative">
@@ -223,31 +217,32 @@
                 <h2 class="section-title">
                     <i class="fa-solid fa-lock"></i> Change Password
                 </h2>
-            
+
                 <div class="password-form-container">
-                    <form id="changePasswordForm">
-                        
-            
+                    <form id="changePasswordForm" action="./change-pass.php" method="POST">
+
+                    <input type="hidden" name="student_id" value="<?php echo $S_ID ?>">
+
                         <div class="form-group">
                             <label for="newPassword">New Password</label>
                             <div class="password-input">
-                                <input type="password" id="newPassword" required>
+                                <input type="password" id="newPassword" name="password" required>
                                 <i class="fa-solid fa-eye toggle-password"></i>
                             </div>
                         </div>
-            
+
                         <div class="form-group">
                             <label for="confirmPassword">Confirm New Password</label>
                             <div class="password-input">
-                                <input type="password" id="confirmPassword" required>
+                                <input type="password" id="confirmPassword" name="confirm_password" required>
                                 <i class="fa-solid fa-eye toggle-password"></i>
                             </div>
                             <p class="match-indicator"><i class="fa-solid fa-check"></i> Passwords match</p>
                         </div>
-            
+
                         <div class="form-actions">
                             <button type="button" class="btn-shape cancel-btn">Cancel</button>
-                            <button type="submit" class="btn-shape confirm-btn" id="savePasswordBtn" style="background-color: #314528;">Change Password</button>
+                            <button type="submit" name="Submit" class="btn-shape confirm-btn" id="savePasswordBtn" style="background-color: #314528;">Change Password</button>
                         </div>
                     </form>
                 </div>
@@ -292,24 +287,24 @@
         });
 
         // Form submission
-        document.getElementById('changePasswordForm').addEventListener('submit', function (e) {
-            e.preventDefault();
+        // document.getElementById('changePasswordForm').addEventListener('submit', function (e) {
+        //     e.preventDefault();
 
-            const currentPassword = document.getElementById('currentPassword').value;
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
+        //     const currentPassword = document.getElementById('currentPassword').value;
+        //     const newPassword = document.getElementById('newPassword').value;
+        //     const confirmPassword = document.getElementById('confirmPassword').value;
 
-            if (newPassword !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
+        //     if (newPassword !== confirmPassword) {
+        //         alert('Passwords do not match!');
+        //         return;
+        //     }
 
-            // Here you would typically make an API call to change the password
-            alert('Password changed successfully!');
-            this.reset();
-            document.querySelector('.password-strength').style.display = 'none';
-            document.querySelector('.match-indicator').style.display = 'none';
-        });
+        //     // Here you would typically make an API call to change the password
+        //     alert('Password changed successfully!');
+        //     this.reset();
+        //     document.querySelector('.password-strength').style.display = 'none';
+        //     document.querySelector('.match-indicator').style.display = 'none';
+        // });
 
         // Cancel button
         document.querySelector('.cancel-btn').addEventListener('click', function () {
