@@ -1,3 +1,80 @@
+<?php
+    session_start();
+
+    include "../Connect.php";
+
+    $S_ID = $_SESSION['S_Log'];
+
+    $category_id_selected   = $_GET['category_id'];
+    $department_id_selected = $_GET['department_id'];
+
+    $marketplacesSql = "SELECT * FROM marketplaces ORDER BY id DESC";
+
+    if ($category_id_selected && $department_id_selected) {
+
+        $marketplacesSql = "SELECT * from marketplaces WHERE category_id = '$category_id_selected' AND department_id = '$department_id_selected' ORDER BY id DESC";
+
+    } else if ($category_id_selected) {
+
+        
+        $marketplacesSql = "SELECT * from marketplaces WHERE category_id = '$category_id_selected' ORDER BY id DESC";
+
+    }else if ($department_id_selected) {
+
+        $marketplacesSql = "SELECT * from marketplaces WHERE department_id = '$department_id_selected' ORDER BY id DESC";
+
+    }
+
+    if (! $S_ID) {
+
+        echo '<script language="JavaScript">
+     document.location="../login.php";
+    </script>';
+
+    } else {
+
+        $sql1 = mysqli_query($con, "select * from students where id='$S_ID'");
+        $row1 = mysqli_fetch_array($sql1);
+
+        $name  = $row1['fname'] . ' ' . $row1['lname'];
+        $email = $row1['email'];
+
+        if (isset($_POST['Submit'])) {
+
+            $department_id = $_POST['department_id'];
+            $category_id   = $_POST['category_id'];
+            $student_id    = $_SESSION['S_Log'];
+            $name          = $_POST['name'];
+            $description   = $_POST['description'];
+            $status        = $_POST['status'];
+            $image         = $_FILES["file"]["name"];
+            $image         = 'MarketPlaces_Images/' . $image;
+
+            $stmt = $con->prepare("INSERT INTO marketplaces (category_id, student_id, department_id, name, description, image) VALUES (?, ?, ?, ?, ?, ?) ");
+
+            $stmt->bind_param("iiisss", $category_id, $student_id, $department_id, $name, $description, $image);
+
+            if ($stmt->execute()) {
+
+                move_uploaded_file($_FILES["file"]["tmp_name"], "./MarketPlaces_Images/" . $_FILES["file"]["name"]);
+
+                echo "<script language='JavaScript'>
+              alert ('Item Added Successfully !');
+         </script>";
+
+                echo "<script language='JavaScript'>
+        document.location='./marketplace.php';
+           </script>";
+
+            }
+        }
+
+    }
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +101,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
     <style>
-        
+
     </style>
 </head>
 
@@ -34,78 +111,14 @@
             <a href="landing.html">
                 <h3 class="p-relative txt-c mt-0">UniKey</h3>
             </a>
-            <ul>
-                <li>
-                    <!-- href -->
-                    <a class=" d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
-                        <i class="fa-regular fa-chart-bar fa-fw"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li>
-                    <!-- href -->
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
-                        <i class="fa-solid fa-gear fa-fw"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <!-- href -->
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
-                        <i class="fa-solid fa-map"></i>
-                        <span>Map</span>
-                    </a>
-                </li>
-                <li>
-                    <!-- href -->
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <span>Lost/Found</span>
-                    </a>
-                </li>
-                <li>
-                    <!-- href -->
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
-                        <i class="fa-solid fa-door-open"></i>
-                        <span>Portals</span>
-                    </a>
-                </li>
-                <li>
-                    <!-- href -->
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
-                        <i class="fa-regular fa-calendar"></i>
-                        <span>Events</span>
-                    </a>
-                </li>
-                <li>
-                    <!-- href -->
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
-                        <i class="fa-solid fa-bullhorn"></i>
-                        <span>Announcements</span>
-                    </a>
-                </li>
-                <li>
-                    <!-- href -->
-                    <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
-                        <i class="fa-solid fa-store"></i>
-                        <span>Marketplace</span>
-                    </a>
-                </li>
-                <li>
-                    <!-- href -->
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <span>Help</span>
-                    </a>
-                </li>
-            </ul>
+            <?php require './asaid.php'?>
         </div>
         <div class="content w-full">
             <!-- Start Head -->
             <div class="head bg-white p-15 between-flex">
                 <div class="user-display p-relative d-flex align-center">
                     <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
-                    <span class="fs-14 fw-500">Tala Hammami</span> <!-- Replace with dynamic username -->
+                    <span class="fs-14 fw-500"><?php echo $name ?></span> <!-- Replace with dynamic username -->
                 </div>
                 <div class="icons d-flex align-center">
                     <span class="notification p-relative">
@@ -118,39 +131,135 @@
             <h1 class="p-relative">Marketplace</h1>
             <!-- Filter Section -->
             <div class="filter-section ">
-                <select name="type" id="filter-type" onchange="filterItems()">
-                    <option value="" disabled selected>Filter by Faculty</option>
-                    <option value="Electronics">IT</option>
-                    <option value="Clothes">Languages</option>
-                    <option value="Wallet">Engeering</option>
-                    <option value="jacket">Medicine</option>
-                    <option value="other">Business</option>
+                <select name="department_id" id="filter-type" >
+                    <option value=""  >Filter by Faculty</option>
+                    <?php
+                        $sql1 = mysqli_query($con, "SELECT * from departments");
+
+                        while ($row1 = mysqli_fetch_array($sql1)) {
+
+                            $department_id_filter   = $row1['id'];
+                            $department_name_filter = $row1['name'];
+
+                        ?>
+
+<option value="<?php echo $department_id_filter ?>" <?php echo $department_id_filter == $department_id_selected ? 'selected' : ''?>><?php echo $department_name_filter ?></option>
+<?php
+}?>
                 </select>
+
+                <select name="category_id" id="category_id">
+                    <option value=""  >Filter by Category</option>
+                    <?php
+                        $sql1 = mysqli_query($con, "SELECT * from categories WHERE type = 'losts'");
+
+                        while ($row1 = mysqli_fetch_array($sql1)) {
+
+                            $category_id_filter   = $row1['id'];
+                            $category_name_filter = $row1['name'];
+
+                        ?>
+
+<option value="<?php echo $category_id_filter ?>" <?php echo $category_id_filter == $category_id_selected ? 'selected' : ''?>><?php echo $category_name_filter ?></option>
+<?php
+}?>
+                </select>
+
+
+                <script>
+
+                        let categoryId =                                                                                 <?php echo json_encode($category_id_selected ?? null); ?>;
+                        let depId =                                                                       <?php echo json_encode($department_id_selected ?? null); ?>;
+
+
+                        document.getElementById('filter-type').addEventListener('change', function() {
+
+                            depId = this.value;
+
+                            if(!categoryId) {
+
+                                document.location = `./marketplace.php?department_id=${this.value}`;
+                            } else {
+                                document.location = `./marketplace.php?department_id=${this.value}&category_id=${categoryId}`;
+
+                            }
+                        });
+
+                        document.getElementById('category_id').addEventListener('change', function() {
+
+                            categoryId = this.value;
+
+                            if(!depId) {
+
+                                document.location = `./marketplace.php?category_id=${this.value}`;
+                            } else {
+                                document.location = `./marketplace.php?department_id=${depId}&category_id=${this.value}`;
+
+                            }
+                        });
+                    </script>
                 <button class="add-card-btn" id="addCardBtn" onclick="openAddCardForm()">Add Your Own Card</button>
             </div>
 
             <div class="friends-page d-grid m-20 gap-20">
                 <!-- First 5 available items -->
+
+                <?php
+                    $sql1 = mysqli_query($con, $marketplacesSql);
+
+                    while ($row1 = mysqli_fetch_array($sql1)) {
+
+                        $marketplace_id    = $row1['id'];
+                        $marketplace_name  = $row1['name'];
+                        $marketplace_image = $row1['image'];
+                        $status            = $row1['status'];
+                        $description       = $row1['description'];
+                        $category_id       = $row1['category_id'];
+                        $student_id        = $row1['student_id'];
+
+                        $sql2 = mysqli_query($con, "SELECT * from categories WHERE id = '$category_id'");
+                        $row2 = mysqli_fetch_array($sql2);
+
+                        $category_name = $row2['name'];
+
+                        $sql3 = mysqli_query($con, "SELECT * from students WHERE id = '$student_id'");
+                        $row3 = mysqli_fetch_array($sql3);
+
+                        $student_name = $row3['name'];
+
+                    ?>
                 <div class="friend bg-white rad-6 p-20 p-relative">
                     <div class="txt-c">
                         <div class="notebook-image-container">
-                            <img class="notebook-image" src="imgs/book1.png" alt="Data Structure Notebook" />
+                            <img class="notebook-image" src="<?php echo $marketplace_image ?>" alt="<?php echo $marketplace_name ?>" />
                         </div>
-                        <h4 class="mt-10">Data Structure</h4>
-                        <p class="c-grey fs-13 mt-5 mb-0">Notebook by Roaa Bassam 2023</p>
+                        <h4 class="mt-10"><?php echo $marketplace_name ?></h4>
+                        <p class="c-grey fs-13 mt-5 mb-0"><?php echo $description ?></p>
                     </div>
                     <div class="tags mt-10 mb-10">
-                        <span class="tag">Web Design</span>
-                        <span class="tag">Design</span>
+                    <span class="tag"><?php echo $category_name ?></span>
                     </div>
                     <span class="availability c-grey mb-10 mt-10">Available for Exchange</span>
                     <div class="contact">
-                        <button class="save fs-14 bg-olive c-beige b-none w-fit btn-shape mt-10" id="btn-found"
-                            style="cursor: pointer;">Contact</button>
+
+                    <?php if ($student_id != $S_ID) {?>
+
+
+<div class="contact">
+    <button class="save fs-14 bg-olive c-beige b-none w-fit btn-shape mt-10" id="btn-found"
+        style="cursor: pointer;">Contact</button>
+</div>
+
+<?php }?>
                     </div>
                 </div>
+                <?php
+                }?>
 
-                <div class="friend bg-white rad-6 p-20 p-relative">
+
+
+
+                <!-- <div class="friend bg-white rad-6 p-20 p-relative">
                     <div class="txt-c">
                         <div class="notebook-image-container">
                             <img class="notebook-image" src="imgs/book2.png" alt="Cryptography Notebook" />
@@ -231,7 +340,6 @@
                     </div>
                 </div>
 
-                <!-- Last 2 expired items -->
                 <div class="friend bg-white rad-6 p-20 p-relative expired">
                     <div class="expired-tag">EXPIRED</div>
                     <div class="txt-c">
@@ -274,39 +382,65 @@
                         <button class="save fs-14 bg-olive c-beige b-none w-fit btn-shape mt-10" id="btn-found"
                             style="cursor: not-allowed;" disabled>Contact</button>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
-    <div id="card" class="new-card hidden" style="height: 1000px;">
+    <div id="card" class="new-card hidden" style="height: 500px !important;">
         <h2>Add Item</h2>
-        <form action="">
+        <form action="./marketplace.php" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" placeholder="Add Title to the item" name="fn">
+                <input type="text" placeholder="Add Title to the item" name="name">
             </div>
             <div class="form-group">
                 <label for="fn">Desciption</label>
-                <input type="text" placeholder="Desciption of the item" name="fn">
+                <input type="text" placeholder="Desciption of the item" name="description">
             </div>
             <div class="form-group">
-                <label for="Category">Faculty</label>
-                <select id="categoray" name="categoray">
-                    <option value="acc">IT</option>
-                    <option value="sta">Medicine</option>
-                    <option value="phone" selected>Engeering</option>
-                    <option value="elec">Business</option>
-                    <option value="clothes">Languages</option>
+                <label for="category_id">Category</label>
+                <select id="category_id" name="category_id">
+                <?php
+                    $sql1 = mysqli_query($con, "SELECT * from categories WHERE type = 'losts'");
+
+                    while ($row1 = mysqli_fetch_array($sql1)) {
+
+                        $category_id   = $row1['id'];
+                        $category_name = $row1['name'];
+
+                    ?>
+
+<option value="<?php echo $category_id ?>"><?php echo $category_name ?></option>
+<?php
+}?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="department_id">Faculty</label>
+                <select id="department_id" name="department_id">
+                <?php
+                    $sql1 = mysqli_query($con, "SELECT * from departments");
+
+                    while ($row1 = mysqli_fetch_array($sql1)) {
+
+                        $department_id   = $row1['id'];
+                        $department_name = $row1['name'];
+
+                    ?>
+
+<option value="<?php echo $department_id ?>"><?php echo $department_name ?></option>
+<?php
+}?>
                 </select>
             </div>
             <div class="form-group" >
                 <label for="fn">Upload Image</label>
-                <input type="file" placeholder="Desciption of the item" name="fn">
+                <input type="file" name="file">
+            </div>
+            <div class="last-btn">
+                <button type="submit" name="Submit" class="btn-shape add-btn">Add</button>
             </div>
         </form>
-        <div class="last-btn">
-            <button id="closeCardBtn" class="btn-shape add-btn">Add</button>
-        </div>
     </div>
     <script>
         function navigateToPage(url) {

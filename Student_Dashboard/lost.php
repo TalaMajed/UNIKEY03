@@ -130,7 +130,7 @@
                 <!-- Filter Section -->
                 <div class="filter-section">
                     <select name="type" id="filter-type">
-                        <option value="" disabled selected>Filter by Type</option>
+                        <option value="">Filter by Type</option>
                         <?php
                             $sql1 = mysqli_query($con, "SELECT * from categories WHERE type = 'losts'");
 
@@ -150,7 +150,7 @@
 
 
                     <select name="place" id="place">
-                        <option value="" disabled selected>Filter by Place</option>
+                        <option value="">Filter by Place</option>
                         <?php
                             $sql1 = mysqli_query($con, "SELECT * from places");
 
