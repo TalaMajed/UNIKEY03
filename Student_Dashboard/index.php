@@ -256,6 +256,7 @@
 
                     ?>
                     <div class="item-card">
+                    <span id="lostID" style="display: none;"><?php echo $lost_id?></span>
                         <div class="item-actions">
                             <a href="./edit-item.php?item_id=<?php echo $lost_id ?>" class="action-btn" title="Edit">
                                 <i class="fa-solid fa-pen-to-square"></i>
@@ -264,7 +265,7 @@
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </div>
-                        <h3>Found:                                                                                                                                                                                                             <?php echo $name ?></h3>
+                        <h3>Found:                                                                                                                                                                                                             <?php echo $lost_name ?></h3>
                         <p><?php echo $last_seen_in ?></p>
                         <div class="item-meta">
                         <?php

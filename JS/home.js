@@ -129,6 +129,9 @@ document.querySelectorAll('.action-btn').forEach(button => {
                                  .trim();
             
             let description = '';
+
+
+            
             if (itemType === 'marketplace') {
                 // Marketplace description is in the second p tag
                 description = card.querySelector('.marketplace-info p')?.textContent || '';
@@ -136,7 +139,12 @@ document.querySelectorAll('.action-btn').forEach(button => {
                
                 window.location.href = `../Student_Dashboard/Edit-Marketplace.php?marketplace_id=${id}`
                 
-            } else {
+            } else if(itemType === 'found')  {
+                const id = document.getElementById('lostID').textContent
+                    window.location.href = `../Student_Dashboard/Edit-Lost-Item.php?item_id=${id}`
+            }
+            
+            else {
                 // Other items use the first p tag
                 description = card.querySelector('p')?.textContent || '';
             }

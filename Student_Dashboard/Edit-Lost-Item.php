@@ -3,8 +3,8 @@
 
     include "../Connect.php";
 
-    $S_ID           = $_SESSION['S_Log'];
-    $marketplace_id = $_GET['marketplace_id'];
+    $S_ID    = $_SESSION['S_Log'];
+    $item_id = $_GET['item_id'];
 
     if (! $S_ID) {
 
@@ -20,42 +20,40 @@
         $name  = $row1['fname'] . ' ' . $row1['lname'];
         $email = $row1['email'];
 
-        $sql222 = mysqli_query($con, "select * from marketplaces where id='$marketplace_id'");
+        $sql222 = mysqli_query($con, "select * from lost_founds where id='$item_id'");
         $row222 = mysqli_fetch_array($sql222);
 
-        $marketplace_category_id   = $row222['category_id'];
-        $marketplace_department_id = $row222['department_id'];
-        $marketplace_name          = $row222['name'];
-        $description               = $row222['description'];
+        $lost_category_id = $row222['category_id'];
+        $lost_place_id    = $row222['place_id'];
+        $item_name        = $row222['name'];
 
         if (isset($_POST['Submit'])) {
 
-            $marketplace_id = $_POST['marketplace_id'];
-            $department_id  = $_POST['department_id'];
-            $category_id    = $_POST['category_id'];
-            $name           = $_POST['name'];
-            $description    = $_POST['description'];
-            $image          = $_FILES["file"]["name"];
+            $item_id     = $_POST['item_id'];
+            $category_id = $_POST['category_id'];
+            $place_id    = $_POST['place_id'];
+            $name        = $_POST['name'];
+            $image       = $_FILES["file"]["name"];
 
             if ($image) {
 
-                $image = 'MarketPlaces_Images/' . $image;
+                $image = 'Losts_Images/' . $image;
 
-                $stmt = $con->prepare("UPDATE marketplaces SET name = ?, description = ?, category_id = ?, department_id = ?, image = ? WHERE id = ?");
+                $stmt = $con->prepare("UPDATE lost_founds SET name = ?, category_id = ?, place_id = ?, image = ? WHERE id = ?");
 
-                $stmt->bind_param("ssiiis", $name, $description, $category_id, $department_id, $image, $marketplace_id);
+                $stmt->bind_param("siisi", $name, $category_id, $place_id, $image, $item_id);
             } else {
 
-                $stmt = $con->prepare("UPDATE marketplaces SET name = ?, description = ?, category_id = ?, department_id = ? WHERE id = ?");
+                $stmt = $con->prepare("UPDATE lost_founds SET name = ?, category_id = ?, place_id = ? WHERE id = ?");
 
-                $stmt->bind_param("ssiii", $name, $description, $category_id, $department_id, $marketplace_id);
+                $stmt->bind_param("siii", $name, $category_id, $place_id, $item_id);
             }
 
             if ($stmt->execute()) {
 
                 if ($image) {
 
-                    move_uploaded_file($_FILES["file"]["tmp_name"], "./MarketPlaces_Images/" . $_FILES["file"]["name"]);
+                    move_uploaded_file($_FILES["file"]["tmp_name"], "./Losts_Images/" . $_FILES["file"]["name"]);
                 }
 
                 echo "<script language='JavaScript'>
@@ -133,19 +131,15 @@
 
 
                 <h2><i class="fa-solid fa-store"></i> Edit Marketplace Item</h2>
-                <form id="itemForm" method="POST" action="./Edit-Marketplace.php?marketplace_id=<?php echo $marketplace_id ?>" enctype="multipart/form-data">
+                <form id="itemForm" method="POST" action="./Edit-Lost-Item.php?item_id=<?php echo $item_id ?>" enctype="multipart/form-data">
 
 
-                <input type="hidden" name="marketplace_id" value="<?php echo $marketplace_id ?>">
+                <input type="hidden" name="item_id" value="<?php echo $item_id ?>">
                     <div class="form-group">
-                        <label for="title">Title</label>
-                        <input type="text" id="title" name="name" value="<?php echo $marketplace_name ?>" required>
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" value="<?php echo $item_name ?>" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description" required><?php echo $description ?></textarea>
-                    </div>
 
                     <div class="form-group">
                         <label for="category_id">Category</label>
@@ -167,19 +161,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="department_id">Faculty</label>
-                        <select id="department_id" name="department_id">
+                        <label for="place_id">Place</label>
+                        <select id="place_id" name="place_id">
                         <?php
-                            $sql1 = mysqli_query($con, "SELECT * from departments");
+                            $sql1 = mysqli_query($con, "SELECT * from places");
 
                             while ($row1 = mysqli_fetch_array($sql1)) {
 
-                                $department_id   = $row1['id'];
-                                $department_name = $row1['name'];
+                                $place_id_filter   = $row1['id'];
+                                $place_name_filter = $row1['name'];
 
                             ?>
 
-<option value="<?php echo $department_id ?>"<?php echo($department_id == $marketplace_department_id ? 'selected' : '') ?>><?php echo $department_name ?></option>
+<option value="<?php echo $place_id_filter ?>"<?php echo $lost_place_id == $place_id_filter ? 'selected' : '' ?>><?php echo $place_name_filter ?></option>
 <?php
 }?>
                         </select>
