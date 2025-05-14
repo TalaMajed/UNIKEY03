@@ -1,3 +1,57 @@
+<?php
+    session_start();
+
+    include "../Connect.php";
+
+    $S_ID = $_SESSION['S_Log'];
+
+    if (! $S_ID) {
+
+        echo '<script language="JavaScript">
+     document.location="../login.php";
+    </script>';
+
+    } else {
+
+        $sql1 = mysqli_query($con, "select * from students where id='$S_ID'");
+        $row1 = mysqli_fetch_array($sql1);
+
+        $name          = $row1['fname'] . ' ' . $row1['lname'];
+        $email         = $row1['email'];
+        $user_image    = $row1['image'];
+        $department_id = $row1['department_id'];
+        $major_id      = $row1['major_id'];
+
+        $sql222 = mysqli_query($con, "select * from departments where id='$department_id'");
+        $row222 = mysqli_fetch_array($sql222);
+
+        $dep_name = $row222['name'];
+
+        $sql33333 = mysqli_query($con, "select * from majors where id='$major_id'");
+        $row3333  = mysqli_fetch_array($sql33333);
+
+        $major_name = $row3333['name'];
+
+        $eventsSql = mysqli_query($con, "select COUNT(id) AS count_events from student_events where student_id='$S_ID'");
+        $eventsRow = mysqli_fetch_array($eventsSql);
+
+        $count_events = $eventsRow['count_events'];
+
+        $lostsSql = mysqli_query($con, "select COUNT(id) AS count_losts from lost_founds where student_id='$S_ID'");
+        $lostsRow = mysqli_fetch_array($lostsSql);
+
+        $count_losts = $lostsRow['count_losts'];
+
+        $marketPlaceSql = mysqli_query($con, "select COUNT(id) AS count_marketplaces from marketplaces where student_id='$S_ID'");
+        $marketPlaceRow = mysqli_fetch_array($marketPlaceSql);
+
+        $count_marketplaces = $marketPlaceRow['count_marketplaces'];
+
+    }
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,10 +67,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
     <link rel="manifest" href="favicon/site.webmanifest" />
     <!-- css -->
-    <link rel="stylesheet" href="css/all.min.css" />
-    <link rel="stylesheet" href="css/framework.css" />
-    <link rel="stylesheet" href="css/dashboard.css" />
-    <link rel="stylesheet" href="css/side.css" />
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="../css/framework.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="../css/side.css" />
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,62 +86,7 @@
     <!-- Sidebar Navigation -->
     <div class="sidebar bg-white p-20 p-relative" id="sidebar">
         <a href="landing.html"><h3 class="p-relative txt-c mt-0">UniKey</h3></a>
-        <ul>
-            <li>
-                <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
-                    <i class="fa-regular fa-chart-bar fa-fw"></i>
-                    <span>Home</span>
-                </a>
-            </li>
-            <li>
-                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
-                    <i class="fa-solid fa-gear fa-fw"></i>
-                    <span>Settings</span>
-                </a>
-            </li>
-            <li>
-                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
-                    <i class="fa-solid fa-map"></i>
-                    <span>Map</span>
-                </a>
-            </li>
-            <li>
-                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <span>Lost/Found</span>
-                </a>
-            </li>
-            <li>
-                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
-                    <i class="fa-solid fa-door-open"></i>
-                    <span>Portals</span>
-                </a>
-            </li>
-            <li>
-                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
-                    <i class="fa-regular fa-calendar"></i>
-                    <span>Events</span>
-                </a>
-            </li>
-            <li>
-                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
-                    <i class="fa-solid fa-bullhorn"></i>
-                    <span>Announcements</span>
-                </a>
-            </li>
-            <li>
-                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
-                    <i class="fa-solid fa-store"></i>
-                    <span>Marketplace</span>
-                </a>
-            </li>
-            <li>
-                <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
-                    <i class="fa-solid fa-circle-info"></i>
-                    <span>Help</span>
-                </a>
-            </li>
-        </ul>
+        <?php require './asaid.php'?>
     </div>
 
         <!-- Main Content -->
@@ -96,7 +95,7 @@
             <div class="head bg-white p-15 between-flex">
                 <div class="user-display p-relative d-flex align-center">
                     <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
-                    <span class="fs-14 fw-500">Tala Hammami</span> <!-- Replace with dynamic username -->
+                    <span class="fs-14 fw-500"><?php echo $name ?></span> <!-- Replace with dynamic username -->
                 </div>
                 <div class="icons d-flex align-center">
                     <span class="notification p-relative">
@@ -107,20 +106,20 @@
             </div>
             <!-- User Profile Section -->
             <div class="user-profile-header">
-                <img src="imgs/profile-pic.JPG" alt="User Avatar" class="user-avatar">
+                <img src="<?php echo $user_image ?>" alt="User Avatar" class="user-avatar">
                 <div class="user-info">
-                    <h2>Tala Hammami</h2>
-                    <p>King Abdullah II Faculty of Information Technology</p>
-                    <p>Computer Information System</p>
+                    <h2><?php echo $name ?></h2>
+                    <p><?php echo $dep_name ?></p>
+                    <p><?php echo $major_name ?></p>
                     <div class="user-stats">
                         <div class="stat-box">
-                            <i class="fa-solid fa-calendar-check"></i> 2 Events
+                            <i class="fa-solid fa-calendar-check"></i> <?php echo $count_events ?> Events
                         </div>
                         <div class="stat-box">
-                            <i class="fa-solid fa-magnifying-glass"></i> 1 Lost Items
+                            <i class="fa-solid fa-magnifying-glass"></i> <?php echo $count_losts; ?> Lost Items
                         </div>
                         <div class="stat-box">
-                            <i class="fa-solid fa-store"></i> 2 Marketplace
+                            <i class="fa-solid fa-store"></i> <?php echo $count_marketplaces ?> Marketplace
                         </div>
                     </div>
                 </div>

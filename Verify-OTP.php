@@ -3,23 +3,40 @@
 
     include "./Connect.php";
 
+    $email = $_GET['email'];
+
     if (isset($_POST['Submit'])) {
 
         $email    = $_POST['email'];
-        $password = md5($_POST['password']);
+        $otp_code = $_POST['otp_code'];
 
-        $query = mysqli_query($con, "SELECT * FROM students WHERE email ='$email' AND password = '$password'");
+        $query = mysqli_query($con, "SELECT id, otp_code FROM students WHERE email ='$email'");
 
         if (mysqli_num_rows($query) > 0) {
 
             $row = mysqli_fetch_array($query);
 
-            $id                = $row['id'];
-            $_SESSION['S_Log'] = $id;
+            $OTPCode    = $row['otp_code'];
+            $student_id = $row['id'];
 
-            echo '<script language="JavaScript">
-          document.location="./Student_Dashboard/";
-          </script>';
+            if ($otp_code != $OTPCode) {
+
+                echo '<script language="JavaScript">
+                alert ("Wrong OTP, Please Try Again !")
+                </script>';
+            } else {
+
+                $active = 1;
+
+                $stmt = $con->prepare("UPDATE students SET active = ? WHERE id = ?");
+
+                $stmt->bind_param("si", $active, $student_id);
+                $stmt->execute();
+
+                echo '<script language="JavaScript">
+              document.location="./login.php";
+              </script>';
+            }
 
         } else {
 
@@ -31,15 +48,13 @@
 ?>
 
 
-
-
 <!DOCTYPE html>
 <html lang="en">
-
+<!-- ocnabhqxscjnfxfn -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniKey - Login</title>
+    <title>UniKey - Verify OTP</title>
     <!-- favicon -->
     <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
@@ -68,7 +83,7 @@
                 </a>
             </div>
             <div class="page-title">
-                <h1>Login to Your Account</h1>
+                <h1>Verify OTP Form</h1>
                 <div class="title-underline"></div>
             </div>
         </div>
@@ -77,27 +92,21 @@
     <div class="main-content">
         <div class="sign">
             <h2 class="form-title">Welcome Back</h2>
-            <form action="./login.php" method="post">
+            <form action="./Verify-OTP.php?email=<?php echo $email ?>" method="post">
+
+
+            <input type="hidden" name="email" value="<?php echo $email ?>">
+
                 <div class="form-group">
-                    <label for="email">University Email</label>
+                    <label for="otp_code">OTP code</label>
                     <div class="input-wrapper">
-                        <input type="email" id="email" placeholder="student@ju.edu.jo" name="email" required>
+                        <input type="otp_code" id="otp_code" name="otp_code" required>
                         <i class="fa-solid fa-envelope input-icon"></i>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="input-wrapper">
-                        <input type="password" id="password" placeholder="Enter your password" name="password" required>
-                        <i class="fa-solid fa-lock input-icon"></i>
-                        <i class="fa-solid fa-eye password-toggle" id="togglePassword"></i>
-                    </div>
-                </div>
-                <div class="remember-me">
-                    <input type="checkbox" class="ch" id="remember" name="remember">
-                    <label for="remember">Remember me</label>
-                </div>
-                <button type="submit" name="Submit" class="sub">Login</button>
+
+                <!-- <input type="submit" value="Verify" class="sub" name="Submit"> -->
+                 <button type="submit" name="Submit" class="sub">Verift</button>
             </form>
             <div class="links">
                 <a href="./signup.php">Create an account</a> •
@@ -106,18 +115,18 @@
         </div>
     </div>
 
-    <script>
+    <!-- <script>
         // WARNING
-        // document.addEventListener('DOMContentLoaded', function () {
-        //         const loginForm = document.querySelector('form[method="post"]');
+        document.addEventListener('DOMContentLoaded', function () {
+                const loginForm = document.querySelector('form[method="post"]');
 
-        //         if (loginForm) {
-        //             loginForm.addEventListener('submit', function (e) {
-        //                 e.preventDefault(); // Prevent actual form submission
-        //                 window.location.href = 'dashboard.html'; // Change to your target page
-        //             });
-        //         }
-        //     });
+                if (loginForm) {
+                    loginForm.addEventListener('submit', function (e) {
+                        e.preventDefault(); // Prevent actual form submission
+                        window.location.href = 'dashboard.html'; // Change to your target page
+                    });
+                }
+            });
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
 
@@ -126,7 +135,7 @@
             password.setAttribute('type', type);
             this.classList.toggle('fa-eye-slash');
         });
-    </script>
+    </script> -->
 </body>
 
 </html>

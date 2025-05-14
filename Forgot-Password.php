@@ -5,41 +5,55 @@
 
     if (isset($_POST['Submit'])) {
 
-        $email    = $_POST['email'];
-        $password = md5($_POST['password']);
+        $email            = $_POST['email'];
+        $otp_code         = $_POST['otp_code'];
+        $password         = md5($_POST['password']);
+        $confirm_password = md5($_POST['confirm_password']);
 
-        $query = mysqli_query($con, "SELECT * FROM students WHERE email ='$email' AND password = '$password'");
+        if ($password != $confirm_password) {
 
-        if (mysqli_num_rows($query) > 0) {
-
-            $row = mysqli_fetch_array($query);
-
-            $id                = $row['id'];
-            $_SESSION['S_Log'] = $id;
-
-            echo '<script language="JavaScript">
-          document.location="./Student_Dashboard/";
-          </script>';
+            echo "<script language='JavaScript'>
+            alert ('Passwords does not match !');
+       </script>";
 
         } else {
 
-            echo '<script language="JavaScript">
-	  alert ("Error ... Please Check Email Or Password !")
-      </script>';
+            $query = mysqli_query($con, "SELECT * FROM students WHERE email ='$email' AND otp_code = '$otp_code'");
+
+            if (mysqli_num_rows($query) > 0) {
+
+                $row = mysqli_fetch_array($query);
+
+                $student_id = $row['id'];
+
+                $stmt = $con->prepare("UPDATE students SET password = ? WHERE id = ?");
+
+                $stmt->bind_param("si", $password, $student_id);
+                $stmt->execute();
+
+                echo '<script language="JavaScript">
+              document.location="./login.php";
+              </script>';
+
+            } else {
+
+                echo '<script language="JavaScript">
+          alert ("Error ... Account Does not exist !")
+          </script>';
+            }
         }
+
     }
 ?>
 
 
-
-
 <!DOCTYPE html>
 <html lang="en">
-
+<!-- ocnabhqxscjnfxfn -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UniKey - Login</title>
+    <title>UniKey - Forgot Password</title>
     <!-- favicon -->
     <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
@@ -68,7 +82,7 @@
                 </a>
             </div>
             <div class="page-title">
-                <h1>Login to Your Account</h1>
+                <h1>Forgot Password</h1>
                 <div class="title-underline"></div>
             </div>
         </div>
@@ -76,8 +90,9 @@
 
     <div class="main-content">
         <div class="sign">
-            <h2 class="form-title">Welcome Back</h2>
-            <form action="./login.php" method="post">
+            <h2 class="form-title">Forgot Password</h2>
+            <form action="" method="post">
+
                 <div class="form-group">
                     <label for="email">University Email</label>
                     <div class="input-wrapper">
@@ -85,6 +100,16 @@
                         <i class="fa-solid fa-envelope input-icon"></i>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="otp_code">One Time OTP</label>
+                    <div class="input-wrapper">
+                        <input type="otp_code" id="otp_code" placeholder="student@ju.edu.jo" name="otp_code" required>
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                    </div>
+                </div>
+
+
                 <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-wrapper">
@@ -93,31 +118,43 @@
                         <i class="fa-solid fa-eye password-toggle" id="togglePassword"></i>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <input type="confirm_password" id="confirm_password" placeholder="Enter your confirm_password" name="confirm_password" required>
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <i class="fa-solid fa-eye password-toggle" id="togglePassword"></i>
+                    </div>
+                </div>
+
+
+
                 <div class="remember-me">
                     <input type="checkbox" class="ch" id="remember" name="remember">
                     <label for="remember">Remember me</label>
                 </div>
-                <button type="submit" name="Submit" class="sub">Login</button>
+                <input type="submit" value="Login" class="sub" name="insert">
             </form>
             <div class="links">
                 <a href="./signup.php">Create an account</a> •
-                <a href="./Forgot-Password.php">Forgot password?</a>
+                <a href="pass.html">Forgot password?</a>
             </div>
         </div>
     </div>
 
     <script>
         // WARNING
-        // document.addEventListener('DOMContentLoaded', function () {
-        //         const loginForm = document.querySelector('form[method="post"]');
+        document.addEventListener('DOMContentLoaded', function () {
+                const loginForm = document.querySelector('form[method="post"]');
 
-        //         if (loginForm) {
-        //             loginForm.addEventListener('submit', function (e) {
-        //                 e.preventDefault(); // Prevent actual form submission
-        //                 window.location.href = 'dashboard.html'; // Change to your target page
-        //             });
-        //         }
-        //     });
+                if (loginForm) {
+                    loginForm.addEventListener('submit', function (e) {
+                        e.preventDefault(); // Prevent actual form submission
+                        window.location.href = 'dashboard.html'; // Change to your target page
+                    });
+                }
+            });
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
 
