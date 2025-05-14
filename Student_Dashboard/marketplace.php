@@ -227,7 +227,11 @@
                         $student_name = $row3['name'];
 
                     ?>
-                <div class="friend bg-white rad-6 p-20 p-relative">
+                <div class="friend bg-white rad-6 p-20 p-relative <?php echo ($status == 'Expired' ? 'expired' : '' )?>">
+
+                <?php if($status == 'Expired') {?>
+                    <div class="expired-tag">EXPIRED</div>
+                <?php }?>
                     <div class="txt-c">
                         <div class="notebook-image-container">
                             <img class="notebook-image" src="<?php echo $marketplace_image ?>" alt="<?php echo $marketplace_name ?>" />

@@ -7,16 +7,15 @@
 
     $now = date('Y-m-d H:i:s');
     $fmt = '%Y-%m-%dT%H:%i';
-    
+
     $sql = "
         UPDATE `events`
         SET `status` = 'Expired'
         WHERE `status` = 'Active'
           AND STR_TO_DATE(`date`, '$fmt') < '$now'
     ";
-    
-    mysqli_query($con, $sql);
 
+    mysqli_query($con, $sql);
 
     $fmtDate = '%Y-%m-%d';
 
@@ -136,13 +135,13 @@
                     <p><?php echo $major_name ?></p>
                     <div class="user-stats">
                         <div class="stat-box">
-                            <i class="fa-solid fa-calendar-check"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           <?php echo $count_events ?> Events
+                            <i class="fa-solid fa-calendar-check"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <?php echo $count_events ?> Events
                         </div>
                         <div class="stat-box">
-                            <i class="fa-solid fa-magnifying-glass"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <?php echo $count_losts; ?> Lost Items
+                            <i class="fa-solid fa-magnifying-glass"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <?php echo $count_losts; ?> Lost Items
                         </div>
                         <div class="stat-box">
-                            <i class="fa-solid fa-store"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                            <?php echo $count_marketplaces ?> Marketplace
+                            <i class="fa-solid fa-store"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <?php echo $count_marketplaces ?> Marketplace
                         </div>
                     </div>
                 </div>
@@ -218,7 +217,7 @@
                         <h3><?php echo $event_name ?></h3>
                         <p><?php echo $event_description ?></p>
                         <div class="item-meta">
-                            <span><i class="fa-solid fa-calendar-days"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <?php echo $event_date ?></span>
+                            <span><i class="fa-solid fa-calendar-days"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <?php echo $event_date ?></span>
                             <span class="status status-registered">Registered</span>
                         </div>
                     </div>
@@ -258,14 +257,14 @@
                     ?>
                     <div class="item-card">
                         <div class="item-actions">
-                            <a href="./edit-item.php?item_id=<?php echo $lost_id?>" class="action-btn" title="Edit">
+                            <a href="./edit-item.php?item_id=<?php echo $lost_id ?>" class="action-btn" title="Edit">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <a href="./FoundItem.php?item_id=<?php echo $lost_id?>" class="action-btn delete-item-btn" title="Delete" data-item="Student ID">
+                            <a href="./FoundItem.php?item_id=<?php echo $lost_id ?>" class="action-btn delete-item-btn" title="Delete" data-item="Student ID">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </div>
-                        <h3>Found:                                                                                                                                         <?php echo $name ?></h3>
+                        <h3>Found:                                                                                                                                                                           <?php echo $name ?></h3>
                         <p><?php echo $last_seen_in ?></p>
                         <div class="item-meta">
                         <?php
@@ -285,7 +284,7 @@
                             ?>
 
                             <span><i class="fa-solid fa-clock"></i><?php echo $timeAgo ?></span>
-                            <span class="status                                                                                                                                                                                                                                            <?php echo $status == 1 || $status == 3 ? 'status-missing' : 'status-found' ?>"><?php echo $status == 1 ? 'Still Missing' : ('Found') ?></span>
+                            <span class="status                                                                                                                                                                                                                                                                                           <?php echo $status == 1 || $status == 3 ? 'status-missing' : 'status-found' ?>"><?php echo $status == 1 ? 'Still Missing' : ('Found') ?></span>
                         </div>
                     </div>
                     <?php
@@ -331,10 +330,10 @@
                             <button class="action-btn" title="Edit" id="<?php echo $marketplace_id ?>">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
-                            <button class="action-btn delete-marketplace-btn" title="Delete"
+                            <a href="./DeleteMarketPlace.php?marketplace_id=<?php echo $marketplace_id ?>" class="action-btn delete-marketplace-btn" title="Delete"
                                 data-item="Calculus Textbook">
                                 <i class="fa-solid fa-trash-can"></i>
-                            </button>
+                            </a>
                         </div>
                         <div class="marketplace-item">
                             <!-- <img src="imgs/calculus.jpg" alt="Calculus Textbook"> -->
@@ -362,7 +361,7 @@
                                 }
                             ?>
 
-                            <span><i class="fa-solid fa-clock"></i> Posted                                                                                                                                                                                                                               <?php echo $marketplaceTimeAgo ?></span>
+                            <span><i class="fa-solid fa-clock"></i> Posted                                                                                                                                                                                                                                                                                                         <?php echo $marketplaceTimeAgo ?></span>
                             <a href="chat.php"><span class="interested"><?php echo $intresets_counts ?> interested</span></a>
                         </div>
                     </div>
@@ -437,7 +436,7 @@
                         <h3><?php echo $announcement_name ?></h3>
                         <p><?php echo $announcement_description ?></p>
                         <div class="item-meta">
-                            <span><i class="fa-solid fa-clock"></i>                                                                    <?php echo $announcementsplaceTimeAgo ?></span>
+                            <span><i class="fa-solid fa-clock"></i>                                                                                                                                       <?php echo $announcementsplaceTimeAgo ?></span>
                             <span><?php echo $category_name ?></span>
                         </div>
                     </div>
