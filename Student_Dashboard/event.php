@@ -1,3 +1,40 @@
+<?php
+    session_start();
+
+    include "../Connect.php";
+
+    $S_ID        = $_SESSION['S_Log'];
+    $category_id_selected = $_GET['category_id'];
+
+    $eventsSql = "SELECT * from events WHERE status != 'Deleted' ORDER BY id DESC";
+
+    if ($category_id_selected) {
+
+        if ($category_id_selected == 'all') {
+            $eventsSql = "SELECT * from events WHERE status != 'Deleted' ORDER BY id DESC";
+        } else {
+            $eventsSql = "SELECT * from events WHERE status != 'Deleted' AND category_id = '$category_id_selected' ORDER BY id DESC";
+        }
+    }
+
+    if (! $S_ID) {
+
+        echo '<script language="JavaScript">
+     document.location="../login.php";
+    </script>';
+
+    } else {
+
+        $sql1 = mysqli_query($con, "select * from students where id='$S_ID'");
+        $row1 = mysqli_fetch_array($sql1);
+
+        $name  = $row1['fname'] . ' ' . $row1['lname'];
+        $email = $row1['email'];
+
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,10 +50,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
     <link rel="manifest" href="favicon/site.webmanifest" />
     <!-- css -->
-    <link rel="stylesheet" href="css/all.min.css" />
-    <link rel="stylesheet" href="css/framework.css" />
-    <link rel="stylesheet" href="css/event.css" />
-    <link rel="stylesheet" href="css/side.css" />
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="../css/framework.css" />
+    <link rel="stylesheet" href="../css/event.css" />
+    <link rel="stylesheet" href="../css/side.css" />
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,69 +67,14 @@
             <a href="landing.html">
                 <h3 class="p-relative txt-c mt-0">UniKey</h3>
             </a>
-            <ul>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
-                        <i class="fa-regular fa-chart-bar fa-fw"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
-                        <i class="fa-solid fa-gear fa-fw"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
-                        <i class="fa-solid fa-map"></i>
-                        <span>Map</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <span>Lost/Found</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
-                        <i class="fa-solid fa-door-open"></i>
-                        <span>Portals</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
-                        <i class="fa-regular fa-calendar"></i>
-                        <span>Events</span>
-                    </a>
-                </li>
-                <li>
-                    <a class=" d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
-                        <i class="fa-solid fa-bullhorn"></i>
-                        <span>Announcements</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
-                        <i class="fa-solid fa-store"></i>
-                        <span>Marketplace</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <span>Help</span>
-                    </a>
-                </li>
-            </ul>
+            <?php require './asaid.php'?>
         </div>
         <div class="content w-full">
             <!-- Start Head -->
             <div class="head bg-white p-15 between-flex">
                 <div class="user-display p-relative d-flex align-center">
                     <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
-                    <span class="fs-14 fw-500">Tala Hammami</span> <!-- Replace with dynamic username -->
+                    <span class="fs-14 fw-500"><?php echo $name ?></span> <!-- Replace with dynamic username -->
                 </div>
                 <div class="icons d-flex align-center">
                     <span class="notification p-relative">
@@ -105,28 +87,66 @@
             <h1 class="p-relative">Upcoming Events</h1>
             <!-- Filter Section -->
             <div class="filter-section p-15 bg-white rad-6 m-20">
-                <label for="filter">Filter by:</label>
-                <select id="filter" class="p-10">
+                <label for="category_id_filter">Filter by:</label>
+                <select id="category_id_filter" class="p-10">
                     <option value="all">All</option>
-                    <option value="web-design">Web Design</option>
-                    <option value="data-structure">Data Structure</option>
-                    <option value="responsive-design">Responsive Design</option>
-                    <option value="python">Python</option>
-                    <option value="php">PHP</option>
+                    <?php
+                        $sql1 = mysqli_query($con, "SELECT * from categories WHERE type = 'events'");
+
+                        while ($row1 = mysqli_fetch_array($sql1)) {
+
+                            $category_id   = $row1['id'];
+                            $category_name = $row1['name'];
+
+                        ?>
+<option value="<?php echo $category_id ?>" <?php echo $category_id_selected == $category_id ? 'selected' : ''?>><?php echo $category_name ?></option>
+<?php
+}?>
                 </select>
+
+                <script>
+
+document.getElementById('category_id_filter').addEventListener('change', function() {
+    document.location = `./event.php?category_id=${this.value}`
+})
+</script>
             </div>
             <div class="courses-page d-grid m-20 gap-20">
-                <div class="course bg-white rad-6 p-relative">
-                    <img class="cover" src="imgs/web_develop.jpg" alt="" />
+
+            <?php
+                $sql1 = mysqli_query($con, $eventsSql);
+
+                while ($row1 = mysqli_fetch_array($sql1)) {
+
+                    $event_id    = $row1['id'];
+                    $event_name  = $row1['name'];
+                    $event_image = $row1['image'];
+                    $status      = $row1['status'];
+                    $count       = $row1['count'];
+                    $date        = $row1['date'];
+                    $description = $row1['description'];
+                    $category_id = $row1['category_id'];
+
+                    $sql2 = mysqli_query($con, "SELECT * from categories WHERE id = '$category_id'");
+                    $row2 = mysqli_fetch_array($sql2);
+
+                    $category_name = $row2['name'];
+
+                    $sql3 = mysqli_query($con, "SELECT COUNT(id) AS members_count from student_events WHERE event_id = '$event_id'");
+                    $row3 = mysqli_fetch_array($sql3);
+
+                    $members_count = $row3['members_count'];
+
+                ?>
+                <div class="course bg-white rad-6 p-relative <?php echo $status === 'Expired' ? 'expired' : '' ?>">
+                    <img class="cover" src="../Admin_Dashboard/<?php echo $event_image ?>" alt="" />
                     <div class="p-20">
-                        <h4 class="m-0">Mastering Web Design</h4>
+                        <h4 class="m-0"><?php echo $name ?></h4>
                         <p class="description c-grey mt-15 fs-14">
-                            Master The Art Of Web Designing And Mocking, Prototyping And Creating Web Design
-                            Architecture
+                        <?php echo $description ?>
                         </p>
                         <div class="tags mt-10">
-                            <span class="tag">Web Design</span>
-                            <span class="tag">Design</span>
+                        <span class="tag"><?php echo $category_name ?></span>
                             <!-- <span class="tag">Development</span> -->
                         </div>
                         <div class="reminder-icon">
@@ -134,114 +154,25 @@
                         </div>
                     </div>
                     <div class="info p-15 p-relative between-flex">
-                        <span class="title bg-blue c-white btn-shape" id="see">More Details</span>
+                        <span class="title bg-blue c-white btn-shape" id="see-<?php echo $event_id ?>" onclick="onClick(<?php echo $event_id ?>)">More Details</span>
                         <span class="c-grey">
                             <i class="fa-regular fa-user"></i>
-                            23/50
+                            <?php echo $members_count ?>/<?php echo $count ?>
                         </span>
                         
                         <span class="c-grey">
                             <i class="fa-solid fa-calendar-days"></i>
-                            3/5/2025
+                            <?php echo $date ?>
                         </span>
                         
                         <!-- <button class="reminder-btn bg-green c-white btn-shape">Set Up Reminder</button> -->
                     </div>
                 </div>
-                <div class="course bg-white rad-6 p-relative">
-                    <img class="cover" src="imgs/data_str.jpg" alt="" />
-                    <div class="p-20">
-                        <h4 class="m-0">Data Structure And Algorithms</h4>
-                        <p class="description c-grey mt-15 fs-14">
-                            Master The Art Of Data Strcuture And Famous Algorithms Like Sorting, Dividing And Conquering
-                        </p>
-                        <div class="tags mt-10">
-                            <span class="tag">Data</span>
-                            <span class="tag">Algorithms</span>
-                            <!-- <span class="tag">Development</span> -->
-                        </div>
-                        <div class="reminder-icon">
-                            <i class="fa-regular fa-bell bell"></i>
-                        </div>
-                    </div>
-                    <div class="info p-15 p-relative between-flex">
-                        <span class="title bg-blue c-white btn-shape" id="see">More Details</span>
-                        <span class="c-grey"> <i class="fa-regular fa-user"></i> 40/50</span>
-                        <span class="c-grey"><i class="fa-solid fa-calendar-days"></i> 12/4/2025</span>
-                        <!-- <button class="reminder-btn bg-green c-white btn-shape">Set Up Reminder</button> -->
-                    </div>
-                </div>
-                <div class="course bg-white rad-6 p-relative">
-                    <img class="cover" src="imgs/web_design.jpg" alt="" />
-                    <div class="p-20">
-                        <h4 class="m-0">Responsive Web Design</h4>
-                        <p class="description c-grey mt-15 fs-14">
-                            Mastering Responsive Web Design And Media Queries And Know Everything About Breakpoints
-                        </p>
-                        <div class="tags mt-10">
-                            <span class="tag">Development</span>
-                            <span class="tag">Web Design</span>
-                            <!-- <span class="tag">Design</span> -->
-                            
-                        </div>
-                        <div class="reminder-icon">
-                            <i class="fa-regular fa-bell bell"></i>
-                        </div>
-                    </div>
-                    <div class="info p-15 p-relative between-flex">
-                        <span class="title bg-blue c-white btn-shape" id="see">More Details</span>
-                        <span class="c-grey"> <i class="fa-regular fa-user"></i> 12/20</span>
-                        <span class="c-grey"><i class="fa-solid fa-calendar-days"></i> 3/4/2025</span>
-                        <!-- <button class="reminder-btn bg-green c-white btn-shape">Set Up Reminder</button> -->
-                    </div>
-                </div>
-                <div class="course bg-white rad-6 p-relative">
-                    <img class="cover" src="imgs/python.jpg" alt="" />
-                    <div class="p-20">
-                        <h4 class="m-0">Mastering Python</h4>
-                        <p class="description c-grey mt-15 fs-14">
-                            Mastering Python To Prepare For Data Science And AI And Automating Things in Your Life
-                        </p>
-                        <div class="tags mt-10">
-                            <span class="tag">Python</span>
-                            <span class="tag">AI</span>
-                            <span class="tag">Coding</span>
-                        </div>
-                        <div class="reminder-icon">
-                            <i class="fa-regular fa-bell bell"></i>
-                        </div>
-                    </div>
-                    <div class="info p-15 p-relative between-flex">
-                        <span class="title bg-blue c-white btn-shape" id="see">More Details</span>
-                        <span class="c-grey"> <i class="fa-regular fa-user"></i> 73/100</span>
-                        <span class="c-grey"><i class="fa-solid fa-calendar-days"></i> 16/3/2025</span>
-                        <!-- <button class="reminder-btn bg-green c-white btn-shape">Set Up Reminder</button> -->
-                    </div>
-                </div>
-                <div class="course bg-white rad-6 p-relative expired">
-                    <i class="fa-solid fa-circle-xmark close-btn"></i>
-                    <img class="cover" src="imgs/backend.jpg" alt="" />
-                    <div class="p-20">
-                        <h4 class="m-0">PHP Examples</h4>
-                        <p class="description c-grey mt-15 fs-14">
-                            PHP Tutorials And Examples And Practice On Web Application And Connecting With Databases
-                        </p>
-                        <div class="tags mt-10">
-                            <span class="tag">Backend</span>
-                            <span class="tag">PHP</span>
-                            <span class="tag">Development</span>
-                        </div>
-                        <div class="reminder-icon">
-                            <i class="fa-regular fa-bell bell"></i>
-                        </div>
-                    </div>
-                    <div class="info p-15 p-relative between-flex">
-                        <span class="title bg-blue c-white btn-shape" id="see">More Details</span>
-                        <span class="c-grey"> <i class="fa-regular fa-user"></i> 50/50</span>
-                        <span class="c-grey"><i class="fa-solid fa-calendar-days"></i> 3/2/2025</span>
-                        <!-- <button class="reminder-btn bg-green c-white btn-shape">Set Up Reminder</button> -->
-                    </div>
-                </div>
+
+                <?php
+}?>
+
+
             </div>
         </div>
     </div>
@@ -259,6 +190,9 @@
             });
             function navigateToPage(url) {
                     window.location.href = url;
+                }
+                const onClick = (id) => {
+                    navigateToPage(`event_details.php?event_id=${id}`);
                 }
             document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("see").addEventListener("click", function () {

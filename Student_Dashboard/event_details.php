@@ -1,3 +1,47 @@
+<?php
+    session_start();
+
+    include "../Connect.php";
+
+    $S_ID     = $_SESSION['S_Log'];
+    $event_id = $_GET['event_id'];
+
+    if (! $S_ID) {
+
+        echo '<script language="JavaScript">
+     document.location="../login.php";
+    </script>';
+
+    } else {
+
+        $sql1 = mysqli_query($con, "select * from students where id='$S_ID'");
+        $row1 = mysqli_fetch_array($sql1);
+
+        $name  = $row1['fname'] . ' ' . $row1['lname'];
+        $email = $row1['email'];
+
+        $sql2 = mysqli_query($con, "select * from events where id='$event_id'");
+        $row2 = mysqli_fetch_array($sql2);
+
+        $category_id = $row2['category_id'];
+        $event_name  = $row2['name'];
+        $location    = $row2['location'];
+        $supervisor  = $row2['supervisor'];
+        $description = $row2['description'];
+        $image       = $row2['image'];
+        $date        = $row2['date'];
+        $count       = $row2['count'];
+        $status      = $row2['status'];
+
+        $sql3 = mysqli_query($con, "select * from categories where id='$category_id'");
+        $row3 = mysqli_fetch_array($sql3);
+
+        $category_name = $row3['name'];
+    }
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +49,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Event Details - Mastering Web Design</title>
+    <title>Event Details - <?php echo $event_name ?></title>
     <!-- favicon -->
     <link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
@@ -13,10 +57,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
     <link rel="manifest" href="favicon/site.webmanifest" />
     <!-- css -->
-    <link rel="stylesheet" href="css/all.min.css" />
-    <link rel="stylesheet" href="css/framework.css" />
-    <link rel="stylesheet" href="css/event.css" />
-    <link rel="stylesheet" href="css/side.css" />
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="../css/framework.css" />
+    <link rel="stylesheet" href="../css/event.css" />
+    <link rel="stylesheet" href="../css/side.css" />
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -131,69 +175,14 @@
             <a href="landing.html">
                 <h3 class="p-relative txt-c mt-0">UniKey</h3>
             </a>
-            <ul>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
-                        <i class="fa-regular fa-chart-bar fa-fw"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
-                        <i class="fa-solid fa-gear fa-fw"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
-                        <i class="fa-solid fa-map"></i>
-                        <span>Map</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <span>Lost/Found</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
-                        <i class="fa-solid fa-door-open"></i>
-                        <span>Portals</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
-                        <i class="fa-regular fa-calendar"></i>
-                        <span>Events</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
-                        <i class="fa-solid fa-bullhorn"></i>
-                        <span>Announcements</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
-                        <i class="fa-solid fa-store"></i>
-                        <span>Marketplace</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <span>Help</span>
-                    </a>
-                </li>
-            </ul>
+            <?php require './asaid.php'?>
         </div>
         <div class="content w-full">
             <!-- Start Head -->
             <div class="head bg-white p-15 between-flex">
                 <div class="user-display p-relative d-flex align-center">
                     <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
-                    <span class="fs-14 fw-500">Tala Hammami</span> <!-- Replace with dynamic username -->
+                    <span class="fs-14 fw-500"><?php echo $name ?></span> <!-- Replace with dynamic username -->
                 </div>
                 <div class="icons d-flex align-center">
                     <span class="notification p-relative">
@@ -206,34 +195,32 @@
             <h1 class="p-relative">Event Details</h1>
             <div class="event-details bg-white rad-6 p-20 m-20">
                 <!-- Event Picture -->
-                <img class="cover rad-6" src="imgs/web_develop.jpg" alt="Event Cover" />
+                <img class="cover rad-6" src="../Admin_Dashboard/<?php echo $image ?>" alt="Event Cover" />
 
-                <h2 class="mt-20">Mastering Web Design</h2>
+                <h2 class="mt-20"><?php echo $event_name ?></h2>
                 <p class="description c-grey mt-15 fs-14">
-                    Master The Art Of Web Designing And Mocking, Prototyping And Creating Web Design Architecture.
+                <?php echo $description ?>
                 </p>
 
                 <!-- Event Details with Icons -->
                 <div class="details mt-20">
                     <div class="detail-item d-flex align-center mb-10">
                         <i class="fa-solid fa-location-dot c-blue fs-16 mr-10"></i>
-                        <p><strong>Location:</strong> Lab 101, IT Building</p>
+                        <p><strong>Location:</strong><?php echo $location ?></p>
                     </div>
                     <div class="detail-item d-flex align-center mb-10">
                         <i class="fa-solid fa-user-tie c-blue fs-16 mr-10"></i>
-                        <p><strong>Supervisor:</strong> Dr. Samar</p>
+                        <p><strong>Supervisor:</strong> <?php echo $supervisor ?></p>
                     </div>
                     <div class="detail-item d-flex align-center mb-10">
                         <i class="fa-solid fa-clock c-blue fs-16 mr-10"></i>
-                        <p><strong>Time:</strong> 3/5/2025, 10:00 AM - 12:00 PM</p>
+                        <p><strong>Time:</strong> <?php echo $date ?></p>
                     </div>
                 </div>
 
                 <!-- Tags -->
                 <div class="tags mt-20">
-                    <span class="tag">Web Design</span>
-                    <span class="tag">Design</span>
-                    <span class="tag">Development</span>
+                <span class="tag"><?php echo $category_name ?></span>
                 </div>
 
                 <!-- Enroll Now Button -->
@@ -260,8 +247,24 @@
             document.getElementById('overlay').style.display = 'none';
         }
         function confirmEnrollment() {
-            alert('You have successfully enrolled in the event!');
-            hideConfirmation();
+            // alert('You have successfully enrolled in the event!');
+            // hideConfirmation();
+
+
+            fetch(`./EnrollInEvent.php?event_id=${<?php echo json_encode($event_id) ?>}`)
+            .then(res => res.json())
+            .then(res => {
+
+                if(!res.error) {
+
+                    alert('You have successfully enrolled in the event!');
+                    hideConfirmation();
+
+                } else {
+                    alert(res.message ?? 'Something went wrong')
+                    hideConfirmation();
+                }
+            })
         }
     </script>
 </body>

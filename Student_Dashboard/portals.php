@@ -1,3 +1,32 @@
+
+<?php
+    session_start();
+
+    include "../Connect.php";
+
+    $S_ID   = $_SESSION['S_Log'];
+    $filter = $_GET['filter'];
+    $place  = $_GET['place'];
+
+    if (! $S_ID) {
+
+        echo '<script language="JavaScript">
+     document.location="../login.php";
+    </script>';
+
+    } else {
+
+        $sql1 = mysqli_query($con, "select * from students where id='$S_ID'");
+        $row1 = mysqli_fetch_array($sql1);
+
+        $name  = $row1['fname'] . ' ' . $row1['lname'];
+        $email = $row1['email'];
+
+    }
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,10 +39,10 @@
     <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
     <link rel="shortcut icon" href="favicon/favicon.ico" />
     <!-- css -->
-    <link rel="stylesheet" href="css/portals.css">
-    <link rel="stylesheet" href="css/framework.css">
-    <link rel="stylesheet" href="css/side.css">
-    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="../css/portals.css">
+    <link rel="stylesheet" href="../css/framework.css">
+    <link rel="stylesheet" href="../css/side.css">
+    <link rel="stylesheet" href="../css/all.min.css">
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,62 +56,7 @@
         <!-- Sidebar (identical to Lost & Found) -->
         <div class="sidebar bg-white p-20 p-relative">
             <h3 class="p-relative txt-c mt-0">UniKey</h3>
-            <ul>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
-                        <i class="fa-regular fa-chart-bar fa-fw"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
-                        <i class="fa-solid fa-gear fa-fw"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
-                        <i class="fa-solid fa-map"></i>
-                        <span>Map</span>
-                    </a>
-                </li>
-                <li>
-                    <a class=" d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <span>Lost/Found</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
-                        <i class="fa-solid fa-door-open"></i>
-                        <span>Portals</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
-                        <i class="fa-regular fa-calendar"></i>
-                        <span>Events</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
-                        <i class="fa-solid fa-bullhorn"></i>
-                        <span>Announcements</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
-                        <i class="fa-solid fa-store"></i>
-                        <span>Marketplace</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <span>Help</span>
-                    </a>
-                </li>
-            </ul>
+            <?php require './asaid.php'?>
         </div>
 
         <!-- Main Content -->
@@ -91,7 +65,7 @@
             <div class="head bg-white p-15 between-flex">
                 <div class="user-display p-relative d-flex align-center">
                     <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
-                    <span class="fs-14 fw-500">Tala Hammami</span> <!-- Replace with dynamic username -->
+                    <span class="fs-14 fw-500"><?php echo $name ?></span> <!-- Replace with dynamic username -->
                 </div>
                 <div class="icons d-flex align-center">
                     <span class="notification p-relative">
@@ -124,10 +98,10 @@
                             <a href="#" class="d-block p-5 c-gray hover-c-black">Course Registration</a>
                             <a href="#" class="d-block p-5 c-gray hover-c-black">Class Schedule</a>
                         </div>
-                        <button class="btn-shape" 
+                        <button class="btn-shape"
                             onclick="togglePortal('studentPortal')">See More</button>
                     </div>
-                    
+
                     <div class="portal-box bg-white rad-10 p-20" id="elearningPortal">
                         <i class="fa-solid fa-laptop-code fa-3x c-olive"></i>
                         <h3 class="c-olive">E-Learning Portal</h3>
@@ -140,7 +114,7 @@
                         <button class="btn-shape"
                             onclick="togglePortal('elearningPortal')">See More</button>
                     </div>
-                    
+
                     <div class="portal-box bg-white rad-10 p-20" id="libraryPortal">
                         <i class="fa-solid fa-book fa-3x c-olive"></i>
                         <h3 class="c-olive">Library Portal</h3>
@@ -150,10 +124,10 @@
                             <a href="#" class="d-block p-5 c-gray hover-c-black">E-Journals</a>
                             <a href="#" class="d-block p-5 c-gray hover-c-black">Borrowed Books</a>
                         </div>
-                        <button class="btn-shape" 
+                        <button class="btn-shape"
                             onclick="togglePortal('libraryPortal')">See More</button>
                     </div>
-                    
+
                     <div class="portal-box bg-white rad-10 p-20" id="emailPortal">
                         <i class="fa-solid fa-envelope fa-3x c-olive"></i>
                         <h3 class="c-olive">Email Portal</h3>
@@ -166,7 +140,7 @@
                         <button class="btn-shape" onclick="togglePortal('emailPortal')">See
                             More</button>
                     </div>
-                    
+
                     <div class="portal-box bg-white rad-10 p-20" id="financialPortal">
                         <i class="fa-solid fa-wallet fa-3x c-olive"></i>
                         <h3 class="c-olive">Financial Services</h3>
@@ -176,10 +150,10 @@
                             <a href="#" class="d-block p-5 c-gray hover-c-black">Payment History</a>
                             <a href="#" class="d-block p-5 c-gray hover-c-black">Scholarships</a>
                         </div>
-                        <button class="btn-shape" 
+                        <button class="btn-shape"
                             onclick="togglePortal('financialPortal')">See More</button>
                     </div>
-                    
+
                     <div class="portal-box bg-white rad-10 p-20" id="internshipPortal">
                         <i class="fa-solid fa-briefcase fa-3x c-olive"></i>
                         <h3 class="c-olive">Internship & Career Services</h3>
@@ -192,7 +166,7 @@
                         <button class="btn-shape"
                             onclick="togglePortal('internshipPortal')">See More</button>
                     </div>
-                    
+
                     <div class="portal-box bg-white rad-10 p-20" id="housingPortal">
                         <i class="fa-solid fa-building fa-3x c-olive"></i>
                         <h3 class="c-olive">Housing Services</h3>
@@ -205,7 +179,7 @@
                         <button class="btn-shape"
                             onclick="togglePortal('housingPortal')">See More</button>
                     </div>
-                    
+
                     <div class="portal-box bg-white rad-10 p-20" id="healthPortal">
                         <i class="fa-solid fa-heartbeat fa-3x c-olive"></i>
                         <h3 class="c-olive">Health Services</h3>
@@ -218,7 +192,7 @@
                         <button class="btn-shape"  onclick="togglePortal('healthPortal')">See
                             More</button>
                     </div>
-                    
+
                     <div class="portal-box bg-white rad-10 p-20" id="transportPortal">
                         <i class="fa-solid fa-bus fa-3x c-olive"></i>
                         <h3 class="c-olive">Transport Services</h3>
@@ -231,7 +205,7 @@
                         <button class="btn-shape"
                             onclick="togglePortal('transportPortal')">See More</button>
                     </div>
-                    
+
                     <!-- ... other portal boxes ... -->
                 </div>
             </div>

@@ -5,6 +5,11 @@
 
     $S_ID = $_SESSION['S_Log'];
 
+    $now = date('Y-m-d H:i:s');
+    $fmt = '%Y-%m-%dT%H:%i';
+
+    // mysqli_query($con, "UPDATE events SET status = 'Expired' WHERE status = 'Active' AND STR_TO_DATE(date, '$fmt') <= $now");
+
     if (! $S_ID) {
 
         echo '<script language="JavaScript">
@@ -77,7 +82,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet" />
     <style>
-        
+
     </style>
 </head>
 
@@ -85,7 +90,7 @@
     <div class="page d-flex">
     <!-- Sidebar Navigation -->
     <div class="sidebar bg-white p-20 p-relative" id="sidebar">
-        <a href="landing.html"><h3 class="p-relative txt-c mt-0">UniKey</h3></a>
+        <a href="index.php"><h3 class="p-relative txt-c mt-0">UniKey</h3></a>
         <?php require './asaid.php'?>
     </div>
 
@@ -113,13 +118,13 @@
                     <p><?php echo $major_name ?></p>
                     <div class="user-stats">
                         <div class="stat-box">
-                            <i class="fa-solid fa-calendar-check"></i> <?php echo $count_events ?> Events
+                            <i class="fa-solid fa-calendar-check"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           <?php echo $count_events ?> Events
                         </div>
                         <div class="stat-box">
-                            <i class="fa-solid fa-magnifying-glass"></i> <?php echo $count_losts; ?> Lost Items
+                            <i class="fa-solid fa-magnifying-glass"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <?php echo $count_losts; ?> Lost Items
                         </div>
                         <div class="stat-box">
-                            <i class="fa-solid fa-store"></i> <?php echo $count_marketplaces ?> Marketplace
+                            <i class="fa-solid fa-store"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                            <?php echo $count_marketplaces ?> Marketplace
                         </div>
                     </div>
                 </div>
@@ -154,7 +159,7 @@
                 </div>
 
                 <div class="view-all">
-                    <a href="map.html">View Full Map →</a>
+                    <a href="map.php">View Full Map →</a>
                 </div>
             </div>
 
@@ -165,42 +170,51 @@
                 </h2>
 
                 <div class="items-grid">
+
+                <?php
+                    $sql1 = mysqli_query($con, "SELECT * FROM student_events WHERE student_id = '$S_ID'");
+
+                    while ($row1 = mysqli_fetch_array($sql1)) {
+
+                        $enrollment_id = $row1['id'];
+                        $event_id      = $row1['event_id'];
+
+                        $sql2 = mysqli_query($con, "SELECT * from events WHERE id = '$event_id'");
+                        $row2 = mysqli_fetch_array($sql2);
+
+                        $event_name        = $row2['name'];
+                        $event_description = $row2['description'];
+                        $event_date        = $row2['date'];
+
+                    ?>
+
                     <div class="item-card">
                         <div class="item-actions">
-                            
-                            <button class="action-btn delete-event-btn" title="Cancel Registration"
+
+                            <a href="./CancelErollment.php?enrollment_id=<?php echo $enrollment_id ?>" class="action-btn delete-event-btn" title="Cancel Registration"
                                 data-event="Tech Conference 2025">
                                 <i class="fa-solid fa-trash-can"></i>
-                            </button>
+                            </a>
+
                         </div>
-                        <h3>Tech Conference 2025</h3>
-                        <p>Annual technology conference featuring industry leaders and workshops on emerging
-                            technologies.</p>
+                        <h3><?php echo $event_name ?></h3>
+                        <p><?php echo $event_description ?></p>
                         <div class="item-meta">
-                            <span><i class="fa-solid fa-calendar-days"></i> May 15, 2025</span>
+                            <span><i class="fa-solid fa-calendar-days"></i>                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <?php echo $event_date ?></span>
                             <span class="status status-registered">Registered</span>
                         </div>
                     </div>
 
-                    <div class="item-card">
-                        <div class="item-actions">
-                            
-                            <button class="action-btn delete-event-btn" title="Cancel Registration"
-                                data-event="Alumni Networking">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                        <h3>Alumni Networking</h3>
-                        <p>Connect with successful alumni from your faculty and learn from their experiences.</p>
-                        <div class="item-meta">
-                            <span><i class="fa-solid fa-calendar-days"></i> June 10, 2025</span>
-                            <span class="status status-registered">Registered</span>
-                        </div>
-                    </div>
+                    <?php
+                    }?>
+
+
+
+
                 </div>
 
                 <div class="view-all">
-                    <a href="event.html">View All Events →</a>
+                    <a href="./event.php">View All Events →</a>
                 </div>
             </div>
 
@@ -211,6 +225,19 @@
                 </h2>
 
                 <div class="items-grid">
+
+                <?php
+                    $sql1 = mysqli_query($con, "SELECT * FROM lost_founds WHERE student_id = '$S_ID' ORDER BY id DESC");
+
+                    while ($row1 = mysqli_fetch_array($sql1)) {
+
+                        $lost_id      = $row1['id'];
+                        $lost_name    = $row1['name'];
+                        $last_seen_in = $row1['last_seen_in'];
+                        $status       = $row1['status'];
+                        $created_at   = $row1['created_at'];
+
+                    ?>
                     <div class="item-card">
                         <div class="item-actions">
                             <button class="action-btn" title="Edit">
@@ -220,34 +247,36 @@
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
-                        <h3>Found: Student ID</h3>
-                        <p>Found near the library entrance. ID belongs to Ahmad Mohammad.</p>
+                        <h3>Found:                                                                                                                                         <?php echo $name ?></h3>
+                        <p><?php echo $last_seen_in ?></p>
                         <div class="item-meta">
-                            <span><i class="fa-solid fa-clock"></i> 2 days ago</span>
-                            <span class="status status-found">Found</span>
-                        </div>
-                    </div>
+                        <?php
+                            $createdDate = new DateTime($created_at);
+                                $now         = new DateTime();
+                                $diff        = $createdDate->diff($now);
 
-                    <div class="item-card">
-                        <div class="item-actions">
-                            <button class="action-btn" title="Edit">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </button>
-                            <button class="action-btn delete-item-btn" title="Delete" data-item="Calculus Textbook">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                        <h3>Found: Calculus Textbook</h3>
-                        <p>Found in the cafeteria area. Has personal notes inside.</p>
-                        <div class="item-meta">
-                            <span><i class="fa-solid fa-clock"></i> 1 week ago</span>
-                            <span class="status status-missing">Still Missing</span>
+                                if ($diff->d > 0) {
+                                    $timeAgo = $diff->d . ' days ago';
+                                } elseif ($diff->h > 0) {
+                                    $timeAgo = $diff->h . ' hours ago';
+                                } elseif ($diff->i > 0) {
+                                    $timeAgo = $diff->i . ' minutes ago';
+                                } else {
+                                    $timeAgo = 'just now';
+                                }
+                            ?>
+
+                            <span><i class="fa-solid fa-clock"></i><?php echo $timeAgo ?></span>
+                            <span class="status                                                                                                                                                                                                                                            <?php echo $status == 1 || $status == 3 ? 'status-missing' : 'status-found' ?>"><?php echo $status == 1 ? 'Still Missing' : ('Found') ?></span>
                         </div>
                     </div>
+                    <?php
+                    }?>
+
                 </div>
 
                 <div class="view-all">
-                    <a href="lost.html">View All Items →</a>
+                    <a href="./lost.php">View All Items →</a>
                 </div>
             </div>
 
@@ -258,10 +287,31 @@
                 </h2>
 
                 <div class="items-grid">
+                <?php
+                    $sql1 = mysqli_query($con, "SELECT * FROM marketplaces WHERE student_id = '$S_ID' ORDER BY id DESC");
+
+                    while ($row1 = mysqli_fetch_array($sql1)) {
+
+                        $marketplace_id          = $row1['id'];
+                        $marketplace_name        = $row1['name'];
+                        $marketplace_description = $row1['description'];
+                        $status                  = $row1['status'];
+                        $marketplace_created_at  = $row1['created_at'];
+                        $category_id             = $row1['category_id'];
+                        $marketplace_image       = $row1['image'];
+                        $intresets_counts        = $row1['intresets_counts'];
+
+                        $sql2 = mysqli_query($con, "SELECT * FROM categories WHERE id = '$category_id'");
+                        $row2 = mysqli_fetch_array($sql2);
+
+                        $category_name = $row2['name'];
+
+                    ?>
+
                     <div class="item-card">
                         <div class="item-actions">
-                            <button class="action-btn" title="Edit">
-                                <i class="fa-solid fa-pen-to-square"></i>   
+                            <button class="action-btn" title="Edit" id="<?php echo $marketplace_id ?>">
+                                <i class="fa-solid fa-pen-to-square"></i>
                             </button>
                             <button class="action-btn delete-marketplace-btn" title="Delete"
                                 data-item="Calculus Textbook">
@@ -271,44 +321,40 @@
                         <div class="marketplace-item">
                             <!-- <img src="imgs/calculus.jpg" alt="Calculus Textbook"> -->
                             <div class="marketplace-info">
-                                <h4>Calculus Textbook</h4>
-                                <p>Excellent condition, barely used</p>
-                                <p>Book Material</p>
+                                <h4><?php echo $marketplace_name ?></h4>
+                                <p><?php echo $marketplace_description ?></p>
+                                <p><?php echo $category_name ?></p>
                             </div>
                         </div>
                         <div class="item-meta">
-                            <span><i class="fa-solid fa-clock"></i> Posted 3 days ago</span>
-                            <a href="chat.html"><span class="interested">3 interested</span></a>
-                        </div>
-                    </div>
 
-                    <div class="item-card">
-                        <div class="item-actions">
-                            <button class="action-btn" title="Edit">
-                                <i class="fa-solid fa-pen-to-square"></i>                   
-                            </button>
-                            <button class="action-btn delete-marketplace-btn" title="Delete"
-                                data-item="Linear Algebra Textbook">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                        <div class="marketplace-item">
-                            <!-- <img src="imgs/linear.jpg" alt="Linear Algebra Textbook"> -->
-                            <div class="marketplace-info">
-                                <h4>Linear Algebra Textbook</h4>
-                                <p>With solved problems and notes</p>
-                                <p>Book Material</p>
-                            </div>
-                        </div>
-                        <div class="item-meta">
-                            <span><i class="fa-solid fa-clock"></i> Posted 1 week ago</span>
-                            <a href="chat.html"><span class="interested" title="See who's interested">1 interested</span></a>
+                        <?php
+                            $marketplaceCreatedDate = new DateTime($marketplace_created_at);
+                                $marketplaceNow         = new DateTime();
+                                $marketplaceDiff        = $marketplaceCreatedDate->diff($marketplaceNow);
+
+                                if ($marketplaceDiff->d > 0) {
+                                    $marketplaceTimeAgo = $marketplaceDiff->d . ' days ago';
+                                } elseif ($marketplaceDiff->h > 0) {
+                                    $marketplaceTimeAgo = $marketplaceDiff->h . ' hours ago';
+                                } elseif ($marketplaceDiff->i > 0) {
+                                    $marketplaceTimeAgo = $marketplaceDiff->i . ' minutes ago';
+                                } else {
+                                    $marketplaceTimeAgo = 'just now';
+                                }
+                            ?>
+
+                            <span><i class="fa-solid fa-clock"></i> Posted                                                                                                                                                                                                                               <?php echo $marketplaceTimeAgo ?></span>
+                            <a href="chat.php"><span class="interested"><?php echo $intresets_counts ?> interested</span></a>
                         </div>
                     </div>
+                    <?php }?>
+
+
                 </div>
 
                 <div class="view-all">
-                    <a href="marketplace.html">View All Marketplace Items →</a>
+                    <a href="./marketplace.php">View All Marketplace Items →</a>
                 </div>
             </div>
 
@@ -331,36 +377,57 @@
                 </h2>
 
                 <div class="items-grid">
-                    <div class="item-card">
-                        <h3>Exam Schedule Update</h3>
-                        <p>Changes to the final exam schedule for Computer Science courses.</p>
-                        <div class="item-meta">
-                            <span><i class="fa-solid fa-clock"></i> Yesterday</span>
-                            <span>IT Department</span>
-                        </div>
-                    </div>
+
+                <?php
+                    $sql5555 = mysqli_query($con, "SELECT * FROM announcements WHERE is_important = 1");
+
+                    while ($row5555 = mysqli_fetch_array($sql5555)) {
+
+                        $announcement_id          = $row5555['id'];
+                        $announcement_name        = $row5555['title'];
+                        $announcement_description = $row5555['description'];
+                        $announcement_created_at  = $row5555['created_at'];
+                        $category_id              = $row5555['category_id'];
+                        $status                   = $row5555['status'];
+
+                        $sql4444 = mysqli_query($con, "SELECT * FROM categories WHERE id = '$category_id'");
+                        $row4444 = mysqli_fetch_array($sql4444);
+
+                        $category_name = $row4444['name'];
+
+                    ?>
 
                     <div class="item-card">
-                        <h3>Campus Maintenance</h3>
-                        <p>Library will be closed this Saturday for maintenance work.</p>
-                        <div class="item-meta">
-                            <span><i class="fa-solid fa-clock"></i> 3 days ago</span>
-                            <span>University Admin</span>
-                        </div>
-                    </div>
 
-                    <div class="item-card">
-                        <h3>Scholarship Opportunity</h3>
-                        <p>Applications now open for the Dean's Scholarship program.</p>
+                    <?php
+                        $announcementsCreatedDate = new DateTime($marketplace_created_at);
+                            $announcementplaceNow     = new DateTime();
+                            $announcementsplaceDiff   = $announcementsCreatedDate->diff($announcementplaceNow);
+
+                            if ($announcementsplaceDiff->d > 0) {
+                                $announcementsplaceTimeAgo = $announcementsplaceDiff->d . ' days ago';
+                            } elseif ($announcementsplaceDiff->h > 0) {
+                                $announcementsplaceTimeAgo = $announcementsplaceDiff->h . ' hours ago';
+                            } elseif ($announcementsplaceDiff->i > 0) {
+                                $announcementsplaceTimeAgo = $announcementsplaceDiff->i . ' minutes ago';
+                            } else {
+                                $announcementsplaceTimeAgo = 'just now';
+                            }
+                        ?>
+
+
+                        <h3><?php echo $announcement_name ?></h3>
+                        <p><?php echo $announcement_description ?></p>
                         <div class="item-meta">
-                            <span><i class="fa-solid fa-clock"></i> 1 week ago</span>
-                            <span>Student Affairs</span>
+                            <span><i class="fa-solid fa-clock"></i>                                                                    <?php echo $announcementsplaceTimeAgo ?></span>
+                            <span><?php echo $category_name ?></span>
                         </div>
                     </div>
+                    <?php }?>
                 </div>
 
                 <div class="view-all">
-                    <a href="announcement.html">View All Announcements →</a>
+                    <a href="./announcement.php">View All Announcements →</a>
                 </div>
             </div>
         </div>

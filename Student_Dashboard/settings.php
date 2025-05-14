@@ -1,3 +1,57 @@
+<?php
+    session_start();
+
+    include "../Connect.php";
+
+    $S_ID = $_SESSION['S_Log'];
+
+    if (! $S_ID) {
+
+        echo '<script language="JavaScript">
+     document.location="../login.php";
+    </script>';
+
+    } else {
+
+        $sql1 = mysqli_query($con, "select * from students where id='$S_ID'");
+        $row1 = mysqli_fetch_array($sql1);
+
+        $name          = $row1['fname'] . ' ' . $row1['lname'];
+        $email         = $row1['email'];
+        $user_image    = $row1['image'];
+        $department_id = $row1['department_id'];
+        $major_id      = $row1['major_id'];
+
+        $sql222 = mysqli_query($con, "select * from departments where id='$department_id'");
+        $row222 = mysqli_fetch_array($sql222);
+
+        $dep_name = $row222['name'];
+
+        $sql33333 = mysqli_query($con, "select * from majors where id='$major_id'");
+        $row3333  = mysqli_fetch_array($sql33333);
+
+        $major_name = $row3333['name'];
+
+        $eventsSql = mysqli_query($con, "select COUNT(id) AS count_events from student_events where student_id='$S_ID'");
+        $eventsRow = mysqli_fetch_array($eventsSql);
+
+        $count_events = $eventsRow['count_events'];
+
+        $lostsSql = mysqli_query($con, "select COUNT(id) AS count_losts from lost_founds where student_id='$S_ID'");
+        $lostsRow = mysqli_fetch_array($lostsSql);
+
+        $count_losts = $lostsRow['count_losts'];
+
+        $marketPlaceSql = mysqli_query($con, "select COUNT(id) AS count_marketplaces from marketplaces where student_id='$S_ID'");
+        $marketPlaceRow = mysqli_fetch_array($marketPlaceSql);
+
+        $count_marketplaces = $marketPlaceRow['count_marketplaces'];
+
+    }
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,10 +64,10 @@
   <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
   <link rel="shortcut icon" href="favicon/favicon.ico" />
   <!-- css -->
-  <link rel="stylesheet" href="css/settings.css">
-  <link rel="stylesheet" href="css/framework.css">
-  <link rel="stylesheet" href="css/side.css">
-  <link rel="stylesheet" href="css/all.min.css">
+  <link rel="stylesheet" href="../css/settings.css">
+  <link rel="stylesheet" href="../css/framework.css">
+  <link rel="stylesheet" href="../css/side.css">
+  <link rel="stylesheet" href="../css/all.min.css">
 
   <!-- fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +75,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-   
+
   </style>
 </head>
 
@@ -29,65 +83,11 @@
   <div class="page d-flex">
     <!-- Sidebar Navigation -->
     <div class="sidebar bg-white p-20 p-relative">
-      <a href="landing.html">
+      <a href="./index.php">
         <h3 class="p-relative txt-c mt-0">UniKey</h3>
       </a>
-      <ul>
-        <li>
-          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
-            <i class="fa-regular fa-chart-bar fa-fw"></i>
-            <span>Home</span>
-          </a>
-        </li>
-        <li>
-          <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
-            <i class="fa-solid fa-gear fa-fw"></i>
-            <span>Settings</span>
-          </a>
-        </li>
-        <li>
-          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
-            <i class="fa-solid fa-map"></i>
-            <span>Map</span>
-          </a>
-        </li>
-        <li>
-          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <span>Lost/Found</span>
-          </a>
-        </li>
-        <li>
-          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
-            <i class="fa-solid fa-door-open"></i>
-            <span>Portals</span>
-          </a>
-        </li>
-        <li>
-          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
-            <i class="fa-regular fa-calendar"></i>
-            <span>Events</span>
-          </a>
-        </li>
-        <li>
-          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
-            <i class="fa-solid fa-bullhorn"></i>
-            <span>Announcements</span>
-          </a>
-        </li>
-        <li>
-          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
-            <i class="fa-solid fa-store"></i>
-            <span>Marketplace</span>
-          </a>
-        </li>
-        <li>
-          <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
-            <i class="fa-solid fa-circle-info"></i>
-            <span>Help</span>
-          </a>
-        </li>
-      </ul>
+
+      <?php require './asaid.php'?>
     </div>
 
     <!-- Main Content -->
@@ -96,7 +96,7 @@
       <div class="head bg-white p-15 between-flex">
         <div class="user-display p-relative d-flex align-center">
           <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
-          <span class="fs-14 fw-500">Tala Hammami</span> <!-- Replace with dynamic username -->
+          <span class="fs-14 fw-500"><?php echo $name ?></span> <!-- Replace with dynamic username -->
         </div>
         <div class="icons d-flex align-center">
           <span class="notification p-relative">
@@ -116,55 +116,103 @@
 
           <div class="form-group">
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" value="Tala" placeholder="First Name">
+            <input type="text" id="firstName" placeholder="First Name"  value="<?php echo $row1['fname'] ?>">
           </div>
 
           <div class="form-group">
             <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" value="Hammami" placeholder="Last Name">
+            <input type="text" id="lastName" placeholder="Last Name"  value="<?php echo $row1['lname'] ?>">
           </div>
 
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" value="tal0217145@ju.edu.jo" placeholder="Email">
+            <input type="email" id="email" placeholder="Email" value="<?php echo $row1['email'] ?>">
           </div>
 
           <div class="form-group">
-            <label for="faculty">Faculty</label>
-            <select id="faculty">
-              <option value="it">Information Technology</option>
-              <option value="engineering" selected>Engineering</option>
-              <option value="business">Business Administration</option>
-              <option value="medicine">Medicine</option>
-              <option value="arts">Arts & Humanities</option>
+            <label for="department_id">Faculty</label>
+            <select id="department_id" name="department_id">
+            <?php
+                $sql3333 = mysqli_query($con, "SELECT * from departments ORDER BY id DESC");
+
+                while ($row33333 = mysqli_fetch_array($sql3333)) {
+
+                    $dep_id   = $row33333['id'];
+                    $dep_name = $row33333['name'];
+
+                ?>
+
+                            <option value="<?php echo $dep_id ?>"<?php echo $dep_id == $department_id ? 'selected' : '' ?>><?php echo $dep_name ?></option>
+
+                            <?php }?>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="major">Major</label>
-            <select id="major">
-              <option value="cs">Computer Science</option>
-              <option value="cis" selected>Computer Information Systems</option>
-              <option value="ai">Artificial Intelligence</option>
-              <option value="ds">Data Science</option>
-              <option value="cyber">Cyber Security</option>
+            <label for="major_id">Major</label>
+            <select id="major_id" name="major_id">
+            <?php
+                $sql3333 = mysqli_query($con, "SELECT * from majors WHERE department_id = '$department_id' ORDER BY id DESC");
+
+                while ($row33333 = mysqli_fetch_array($sql3333)) {
+
+                    $major_id   = $row33333['id'];
+                    $major_name = $row33333['name'];
+
+                ?>
+
+                            <option value="<?php echo $major_id ?>"<?php echo $major_id == $row1['major_id'] ? 'selected' : '' ?>><?php echo $major_name ?></option>
+
+                            <?php }?>
             </select>
           </div>
 
-          <div class="setting-item">
+          <div class="form-group">
+            <label for="profile_image">Profile</label>
+            <input type="file" id="profile_image">
+          </div>
+
+          <script>
+                    document.getElementById('department_id').addEventListener('change', function() {
+
+                        fetch(`../Get_Majors.php?department_id=${this.value}`)
+                        .then(res => res.json())
+                        .then(data => {
+
+                            let majorsSelect = document.getElementById('major_id');
+                            majorsSelect.innerHTML = '';
+
+                            let defaultOption = document.createElement('option');
+                            defaultOption.value = '';
+                            defaultOption.textContent = 'Select Major';
+                            majorsSelect.appendChild(defaultOption);
+
+                            data.forEach(item => {
+                                let option = document.createElement('option');
+                                option.value = item.id;
+                                option.textContent = item.name;
+                                majorsSelect.appendChild(option);
+                            });
+
+                        })
+
+                    })
+                  </script>
+
+          <!-- <div class="setting-item">
             <div class="setting-info">
               <span class="setting-label">Profile Picture</span>
               <p class="setting-description">Update your profile photo</p>
             </div>
             <button class="save-changes-btn">Change</button>
-          </div>
+          </div> -->
 
           <div class="setting-item">
             <div class="setting-info">
               <span class="setting-label">Change Password</span>
               <p class="setting-description">Last changed 3 months ago</p>
             </div>
-            <button class="save-changes-btn"><a href="change-pass.html" style="color: #f3f4e7;">Change</a></button>
+            <button class="save-changes-btn"><a href="change-pass.php" style="color: #f3f4e7;">Change</a></button>
           </div>
         </div>
 
@@ -266,7 +314,7 @@
         <div class="settings-box">
           <h2 class="settings-title"><i class="fa-solid fa-paintbrush"></i> Application Customization</h2>
           <p class="settings-description">Personalize your app experience</p>
-        
+
           <div class="setting-item">
             <div class="setting-info">
               <span class="setting-label">Theme</span>
@@ -280,7 +328,7 @@
             </select>
             </div>
           </div>
-        
+
           <div class="setting-item">
             <div class="setting-info">
               <span class="setting-label">Language</span>
@@ -292,7 +340,7 @@
                 <option value="ar">Arabic</option>
                 <option value="fr">French</option>
                 <option value="es">Spanish</option>
-              </select> 
+              </select>
               </div>
           </div>
         </div>
@@ -301,7 +349,7 @@
 
       <!-- Save Changes Button -->
       <div class="save-changes">
-        <button class="save-changes-btn">
+        <button class="save-changes-btn saveData">
           <i class="fas fa-save"></i> Save Changes
         </button>
       </div>
@@ -336,9 +384,41 @@
     updateNotificationTypes();
 
     // Save changes button functionality
-    document.querySelector('.save-changes-btn').addEventListener('click', function () {
+    document.querySelector('.saveData').addEventListener('click', function () {
       // Here you would typically send the form data to your backend
-      alert('Your settings have been saved successfully!');
+
+
+      const form = new FormData();
+
+        form.append('fname', document.getElementById('firstName').value);
+        form.append('lname', document.getElementById('lastName').value);
+        form.append('email', document.getElementById('email').value);
+        form.append('department_id', document.getElementById('department_id').value);
+        form.append('major_id', document.getElementById('major_id').value);
+        form.append('student_id', <?php echo json_encode($S_ID) ?>);
+
+        const imageFile = document.getElementById('profile_image').files[0] ?? null;
+            if (imageFile) {
+              form.append('image', imageFile);
+            }
+
+       fetch('./UpdateAccount.php', {
+        method: 'POST',
+        body: form
+      })
+      .then(res => res.json())
+      .then(res => {
+
+        if(!res.error) {
+
+          alert('Your settings have been saved successfully!');
+          return;
+        }
+
+        alert('Something went wrong');
+        return;
+      })
+
     });
   </script>
 </body>

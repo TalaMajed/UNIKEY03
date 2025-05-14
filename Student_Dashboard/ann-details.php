@@ -1,3 +1,46 @@
+
+<?php
+    session_start();
+
+    include "../Connect.php";
+
+    $S_ID   = $_SESSION['S_Log'];
+    $ann_id = $_GET['ann_id'];
+
+    if (! $S_ID) {
+
+        echo '<script language="JavaScript">
+     document.location="../login.php";
+    </script>';
+
+    } else {
+
+        $sql1 = mysqli_query($con, "select * from students where id = '$S_ID'");
+        $row1 = mysqli_fetch_array($sql1);
+
+        $name  = $row1['fname'] . ' ' . $row1['lname'];
+        $email = $row1['email'];
+
+        $sql2 = mysqli_query($con, "select * from announcements where id = '$ann_id'");
+        $row2 = mysqli_fetch_array($sql2);
+
+        $category_id = $row2['category_id'];
+        $title       = $row2['title'];
+        $date        = $row2['date'];
+        $content     = $row2['content'];
+        $description = $row2['description'];
+        $image       = $row2['image'];
+
+        $sql3 = mysqli_query($con, "select * from categories where id='$category_id'");
+        $row3 = mysqli_fetch_array($sql3);
+
+        $category_name = $row3['name'];
+    }
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,10 +56,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
     <link rel="manifest" href="favicon/site.webmanifest" />
     <!-- css -->
-    <link rel="stylesheet" href="css/all.min.css" />
-    <link rel="stylesheet" href="css/framework.css" />
-    <link rel="stylesheet" href="css/announcement.css" />
-    <link rel="stylesheet" href="css/side.css" />
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="../css/framework.css" />
+    <link rel="stylesheet" href="../css/announcement.css" />
+    <link rel="stylesheet" href="../css/side.css" />
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,62 +153,7 @@
             <a href="landing.html">
                 <h3 class="p-relative txt-c mt-0">UniKey</h3>
             </a>
-            <ul>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
-                        <i class="fa-regular fa-chart-bar fa-fw"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
-                        <i class="fa-solid fa-gear fa-fw"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
-                        <i class="fa-solid fa-map"></i>
-                        <span>Map</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <span>Lost/Found</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
-                        <i class="fa-solid fa-door-open"></i>
-                        <span>Portals</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
-                        <i class="fa-regular fa-calendar"></i>
-                        <span>Events</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
-                        <i class="fa-solid fa-bullhorn"></i>
-                        <span>Announcements</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
-                        <i class="fa-solid fa-store"></i>
-                        <span>Marketplace</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <span>Help</span>
-                    </a>
-                </li>
-            </ul>
+            <?php require('./asaid.php') ?>
         </div>
 
         <!-- Content -->
@@ -174,7 +162,7 @@
             <div class="head bg-white p-15 between-flex">
                 <div class="user-display p-relative d-flex align-center">
                     <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
-                    <span class="fs-14 fw-500">Tala Hammami</span> <!-- Replace with dynamic username -->
+                    <span class="fs-14 fw-500"><?php echo $name ?></span> <!-- Replace with dynamic username -->
                 </div>
                 <div class="icons d-flex align-center">
                     <span class="notification p-relative">
@@ -187,30 +175,28 @@
             <!-- Main Content -->
             <div class="announcement-detail">
                 <div class="tags">
-                    <span class="tag">General</span>
+                    <span class="tag"><?php echo $category_name?></span>
                 </div>
                 <div class="announcement-header">
                     <div class="title">
-                        <h2>UJ's Yearbook 2024-2025 Has Been Launched</h2>
-                        <p>We are excited to announce that the UJ's Yearbook for the academic year 2024-2025 has been
-                            officially launched. This year's edition features a comprehensive look at the achievements,
-                            events, and memorable moments of our university community.</p>
+                        <h2><?php echo $title?></h2>
+                        <p><?php echo $description?></p>
                         
                     </div>
-                    <img src="imgs/Yearbook.jpg" alt="UJ's Yearbook" />
+                    <img src="../Admin_Dashboard/<?php echo $image?>" alt="UJ's Yearbook" />
                 </div>
                 <div class="content">
                    
-                    <p>Highlights of this year's yearbook include:</p> 
-                    <ul>
+                    <p><?php echo $content?></p> 
+                    <!-- <ul>
                         <li>- Exclusive interviews with faculty and students</li>
                         <li>- Photo galleries from major university events</li>
                         <li>- Special sections dedicated to graduating students</li>
                     </ul>
                     <p>Copies of the yearbook are available for purchase at the university bookstore. Don't miss out on
-                        this keepsake that captures the spirit of our university!</p>
+                        this keepsake that captures the spirit of our university!</p> -->
                 </div>
-                <div class="btn-shape bg-eee fs-13 label">15/3/2025</div>
+                <div class="btn-shape bg-eee fs-13 label"><?php echo $date?></div>
                 <!-- <button class="go-back-btn" onclick="goBack()">Go Back</button> -->
                 
             </div>

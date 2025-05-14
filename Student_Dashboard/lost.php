@@ -1,3 +1,71 @@
+<?php
+    session_start();
+
+    include "../Connect.php";
+
+    $S_ID   = $_SESSION['S_Log'];
+    $filter = $_GET['filter'];
+    $place  = $_GET['place'];
+
+    if (! $S_ID) {
+
+        echo '<script language="JavaScript">
+     document.location="../login.php";
+    </script>';
+
+    } else {
+
+        $sql1 = mysqli_query($con, "select * from students where id='$S_ID'");
+        $row1 = mysqli_fetch_array($sql1);
+
+        $name  = $row1['fname'] . ' ' . $row1['lname'];
+        $email = $row1['email'];
+
+        $itemsSql = "SELECT * from lost_founds ORDER BY id DESC";
+
+        if ($place && $filter) {
+            $itemsSql = "SELECT * from lost_founds WHERE category_id = '$filter' AND place_id = '$place' ORDER BY id DESC";
+        } else if ($filter) {
+            $itemsSql = "SELECT * from lost_founds WHERE category_id = '$filter' ORDER BY id DESC";
+        } else if ($place) {
+            $itemsSql = "SELECT * from lost_founds WHERE place_id = '$place' ORDER BY id DESC";
+        }
+
+        if (isset($_POST['Submit'])) {
+
+            $category_id  = $_POST['category_id'];
+            $student_id   = $_POST['student_id'];
+            $place_id     = $_POST['place_id'];
+            $name         = $_POST['name'];
+            $type         = $_POST['type'];
+            $last_seen_in = $_POST['last_seen_in'];
+            $image        = $_FILES["file"]["name"];
+            $image        = 'Losts_Images/' . $image;
+            $status       = 1;
+
+            $stmt = $con->prepare("INSERT INTO lost_founds (category_id, place_id, student_id, name, image, status) VALUES (?, ?, ?, ?, ?, ?) ");
+
+            $stmt->bind_param("iiissi", $category_id, $place_id, $student_id, $name, $image, $status);
+
+            if ($stmt->execute()) {
+
+                move_uploaded_file($_FILES["file"]["tmp_name"], "./Losts_Images/" . $_FILES["file"]["name"]);
+
+                echo "<script language='JavaScript'>
+              alert ('Item Added Successfully !');
+         </script>";
+
+                echo "<script language='JavaScript'>
+        document.location='./lost.php';
+           </script>";
+
+            }
+        }
+    }
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,10 +78,10 @@
     <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
     <link rel="shortcut icon" href="favicon/favicon.ico" />
     <!-- css -->
-    <link rel="stylesheet" href="css/lost_found.css">
-    <link rel="stylesheet" href="css/framework.css">
-    <link rel="stylesheet" href="css/side.css">
-    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="../css/lost_found.css">
+    <link rel="stylesheet" href="../css/framework.css">
+    <link rel="stylesheet" href="../css/side.css">
+    <link rel="stylesheet" href="../css/all.min.css">
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +89,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        
+
     </style>
 </head>
 
@@ -32,62 +100,7 @@
             <a href="landing.html">
                 <h3 class="p-relative txt-c mt-0">UniKey</h3>
             </a>
-            <ul>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="dashboard.html">
-                        <i class="fa-regular fa-chart-bar fa-fw"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="settings.html">
-                        <i class="fa-solid fa-gear fa-fw"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="map.html">
-                        <i class="fa-solid fa-map"></i>
-                        <span>Map</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="lost.html">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <span>Lost/Found</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="portals.html">
-                        <i class="fa-solid fa-door-open"></i>
-                        <span>Portals</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="event.html">
-                        <i class="fa-regular fa-calendar"></i>
-                        <span>Events</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="announcement.html">
-                        <i class="fa-solid fa-bullhorn"></i>
-                        <span>Announcements</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="marketplace.html">
-                        <i class="fa-solid fa-store"></i>
-                        <span>Marketplace</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="help.html">
-                        <i class="fa-solid fa-circle-info"></i>
-                        <span>Help</span>
-                    </a>
-                </li>
-            </ul>
+            <?php require './asaid.php'?>
         </div>
 
         <!-- Main Content -->
@@ -96,7 +109,7 @@
             <div class="head bg-white p-15 between-flex">
                 <div class="user-display p-relative d-flex align-center">
                     <i class="fa-solid fa-user-circle fa-lg c-main mr-10"></i>
-                    <span class="fs-14 fw-500">Tala Hammami</span> <!-- Replace with dynamic username -->
+                    <span class="fs-14 fw-500"><?php echo $name ?></span> <!-- Replace with dynamic username -->
                 </div>
                 <div class="icons d-flex align-center">
                     <span class="notification p-relative">
@@ -116,200 +129,131 @@
             <div class="wrapper">
                 <!-- Filter Section -->
                 <div class="filter-section">
-                    <select name="type" id="filter-type" onchange="filterItems()">
+                    <select name="type" id="filter-type">
                         <option value="" disabled selected>Filter by Type</option>
-                        <option value="Electronics">Electronics</option>
-                        <option value="Clothes">Clothes</option>
-                        <option value="Wallet">Wallet</option>
-                        <option value="jacket">Wallet</option>
-                        <option value="other">Other</option>
+                        <?php
+                            $sql1 = mysqli_query($con, "SELECT * from categories WHERE type = 'losts'");
+
+                            while ($row1 = mysqli_fetch_array($sql1)) {
+
+                                $category_id_filter   = $row1['id'];
+                                $category_name_filter = $row1['name'];
+
+                            ?>
+
+<option value="<?php echo $category_id_filter ?>"<?php echo $filter == $category_id_filter ? 'selected' : '' ?>><?php echo $category_name_filter ?></option>
+<?php
+}?>
                     </select>
+
+
+
+
+                    <select name="place" id="place">
+                        <option value="" disabled selected>Filter by Place</option>
+                        <?php
+                            $sql1 = mysqli_query($con, "SELECT * from places");
+
+                            while ($row1 = mysqli_fetch_array($sql1)) {
+
+                                $place_id_filter   = $row1['id'];
+                                $place_name_filter = $row1['name'];
+
+                            ?>
+
+<option value="<?php echo $place_id_filter ?>"<?php echo $place == $place_id_filter ? 'selected' : '' ?>><?php echo $place_name_filter ?></option>
+<?php
+}?>
+                    </select>
+
+                    <script>
+
+let placeId    =                 <?php echo json_encode($place ?? null); ?>;
+let categoryId =                 <?php echo json_encode($filter ?? null); ?>;
+
+                        document.getElementById('filter-type').addEventListener('change', function() {
+
+                            categoryId = this.value
+
+                            if(!placeId) {
+
+                                document.location = `./lost.php?filter=${this.value}`;
+                            } else {
+                                document.location = `./lost.php?filter=${this.value}&place=${placeId}`;
+
+                            }
+                        });
+
+                        document.getElementById('place').addEventListener('change', function() {
+
+                            placeId = this.value
+
+                            if(!categoryId) {
+
+                                document.location = `./lost.php?place=${this.value}`;
+                            } else {
+                                document.location = `./lost.php?filter=${categoryId}&place=${placeId}`;
+
+                            }
+                        });
+
+                    </script>
+
                     <button class="add-card-btn" id="addCardBtn">Add Your Own Card</button>
                 </div>
 
                 <!-- Card Container -->
                 <div class="card-container">
-                    <div class="card" data-type="scarf" data-location="lab">
-                        <img src="imgs/scarf.jpg" alt="Scarf">
+
+
+                <?php
+                    $sql1 = mysqli_query($con, $itemsSql);
+
+                    while ($row1 = mysqli_fetch_array($sql1)) {
+
+                        $item_id     = $row1['id'];
+                        $category_id = $row1['category_id'];
+                        $student_id  = $row1['student_id'];
+                        $place_id    = $row1['place_id'];
+                        $item_name   = $row1['name'];
+                        $item_image  = $row1['image'];
+                        $type        = $row1['type'];
+                        $status      = $row1['status'];
+
+                        $sql2 = mysqli_query($con, "SELECT * from categories WHERE id = '$category_id'");
+                        $row2 = mysqli_fetch_array($sql2);
+
+                        $category_name = $row2['name'];
+
+                        $sql3 = mysqli_query($con, "SELECT * from places WHERE id = '$place_id'");
+                        $row3 = mysqli_fetch_array($sql3);
+
+                        $place_name = $row3['name'];
+
+                    ?>
+
+
+                    <div class="card                                                                                                                                                                                                                                                                                                                                     <?php echo $status == 2 ? 'expired' : '' ?>" data-type="<?php echo $type; ?>" data-location="<?php echo $last_seen_in ?>">
+                        <img src="<?php echo $item_image; ?>" alt="<?php echo $type; ?>">
                         <div class="info">
-                            <h5><i class="fa-solid fa-shirt"></i> Found Scarf</h5>
-                            <p>Colored scarf</p>
+                            <h5><i class="fa-solid fa-shirt"></i> Found                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <?php echo $type ?></h5>
+                            <p><?php echo $item_name ?></p>
                         </div>
                         <div class="info">
                             <h5><i class="fa-solid fa-location-dot"></i> Found Location</h5>
-                            <p>Lab 203</p>
+                            <p><?php echo $place_name; ?></p>
                         </div>
                         <div class="info">
                             <h5><i class="fa-solid fa-tag"></i> Category</h5>
-                            <p>Accessories</p>
+                            <p><?php echo $category_name; ?></p>
                         </div>
-                        <form action="chat.html">
+                        <form action="chat.php">
                             <input type="submit" value="Contact Finder" class="sub">
                         </form>
                     </div>
-                    
-                    <!-- Card 2 -->
-                    <div class="card" data-type="keys" data-location="eng-street">
-                        <img src="imgs/carkey.jpg" alt="Car Keys">
-                        <div class="info">
-                            <h5><i class="fa-solid fa-key"></i> Found Keys</h5>
-                            <p>Car keys</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-location-dot"></i> Found Location</h5>
-                            <p>Eng street</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-tag"></i> Category</h5>
-                            <p>Electronics</p>
-                        </div>
-                        <form action="chat.html">
-                            <input type="submit" value="Contact Finder" class="sub">
-                        </form>
-                    </div>
-                    
-                    <!-- Card 3 -->
-                    <div class="card" data-type="phone" data-location="cafeteria">
-                        <img src="imgs/phone2.jpg" alt="Phone">
-                        <div class="info">
-                            <h5><i class="fa-solid fa-mobile"></i> Found Phone</h5>
-                            <p>S12 Samsung</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-location-dot"></i> Found Location</h5>
-                            <p>Cafeteria</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-tag"></i> Category</h5>
-                            <p>Phone</p>
-                        </div>
-                        <form action="chat.html">
-                            <input type="submit" value="Contact Finder" class="sub">
-                        </form>
-                    </div>
-                    
-                    <!-- Card 4 -->
-                    <div class="card " data-type="wallet" data-location="library">
-                        <i class="fa-solid fa-clock expired-icon"></i>
-                        <img src="imgs/wallet.jpg" alt="Wallet">
-                        <div class="info">
-                            <h5><i class="fa-solid fa-wallet"></i> Found Wallet</h5>
-                            <p>Black Wallet</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-location-dot"></i> Found Location</h5>
-                            <p>Library</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-tag"></i> Category</h5>
-                            <p>Accessories</p>
-                        </div>
-                        <form action="chat.html">
-                            <input type="submit" value="Contact Finder" class="sub">
-                        </form>
-                    </div>
-                    <!-- Card 1 -->
-                    <div class="card" data-type="phone" data-location="library">
-                        <img src="imgs/phone.jpg" alt="Phone">
-                        <div class="info">
-                            <h5><i class="fa-solid fa-mobile"></i> Found Phone</h5>
-                            <p>iPhone 12 black</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-location-dot"></i> Last Seen</h5>
-                            <p>Library</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-tag"></i> Category</h5>
-                            <p>Phone</p>
-                        </div>
-                        <form action="chat.html">
-                            <input type="submit" value="Contact Finder" class="sub">
-                        </form>
-                    </div>
+                         <?php
+                         }?>
 
-                    <!-- Card 2 -->
-                    <div class="card" data-type="charger" data-location="cafeteria">
-                        <img src="imgs/charger.jpg" alt="Charger">
-                        <div class="info">
-                            <h5><i class="fa-solid fa-bolt"></i> Found Charger</h5>
-                            <p>Type C Charger</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-location-dot"></i> Last Seen</h5>
-                            <p>Cafeteria</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-tag"></i> Category</h5>
-                            <p>Electronics</p>
-                        </div>
-                        <form action="chat.html">
-                            <input type="submit" value="Contact Finder" class="sub">
-                        </form>
-                    </div>
-
-                    <!-- Card 3 -->
-                    <div class="card expired" data-type="notebook" data-location="zaza">
-                    <i class="fa-solid fa-clock expired-icon"></i>
-                        <img src="imgs/notebook.jpg" alt="Notebook">
-                        <div class="info">
-                            <h5><i class="fa-solid fa-book"></i> Found Notebook</h5>
-                            <p>Brown large notebook</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-location-dot"></i> Last Seen</h5>
-                            <p>ZAZA</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-tag"></i> Category</h5>
-                            <p>Stationery</p>
-                        </div>
-                        <form action="chat.html">
-                            <input type="submit" value="Contact Finder" class="sub">
-                        </form>
-                    </div>
-
-                    <!-- Card 4 -->
-                    <div class="card expired" data-type="jacket" data-location="lab">
-                        <i class="fa-solid fa-clock expired-icon"></i>
-                        <img src="imgs/jacket.jpg" alt="Jacket">
-                        <div class="info">
-                            <h5><i class="fa-solid fa-shirt"></i> Found Jacket</h5>
-                            <p>Black Jacket</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-location-dot"></i> Last Seen</h5>
-                            <p>Lab 101</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-tag"></i> Category</h5>
-                            <p>Clothes</p>
-                        </div>
-                        <form action="chat.html">
-                            <input type="submit" value="Contact Finder" class="sub">
-                        </form>
-                    </div>
-
-                    <!-- Card 5 -->
-                    <div class="card expired" data-type="bag" data-location="it-faculty">
-                        <i class="fa-solid fa-clock expired-icon"></i>
-                        <img src="imgs/bag.jpg" alt="Bag">
-                        <div class="info">
-                            <h5><i class="fa-solid fa-suitcase"></i> Found Bag</h5>
-                            <p>Navy pack bag</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-location-dot"></i> Last Seen</h5>
-                            <p>IT faculty</p>
-                        </div>
-                        <div class="info">
-                            <h5><i class="fa-solid fa-tag"></i> Category</h5>
-                            <p>Accessories</p>
-                        </div>
-                        <form action="chat.html">
-                            <input type="submit" value="Contact Finder" class="sub">
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
@@ -318,65 +262,70 @@
     <!-- New Card Form -->
     <div id="card" class="new-card hidden">
         <h2>Report Lost Item</h2>
-        <form action="">
+        <form action="./lost.php" method="POST" enctype="multipart/form-data">
+
+        <input type="hidden" value="<?php echo $S_ID ?>" name="student_id">
+
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" placeholder="Add Title to the item" name="title">
+                <input type="text" placeholder="Add Title to the item" name="name" required>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="description">Description</label>
                 <input type="text" placeholder="Description of the item" name="description">
-            </div>
+            </div> -->
             <div class="form-group">
-                <label for="category">Last Seen</label>
-                <select id="category" name="category" class="styled-select">
+                <label for="place_id">Last Seen</label>
+                <select id="place_id" name="place_id" class="styled-select">
                     <option value="" disabled selected>Select your faculty</option>
-                    <option value="IT">King Abdullah II for Information Technology</option>
-                    <option value="Sci">Science</option>
-                    <option value="Agr">Agriculture</option>
-                    <option value="Eng">Engineering</option>
-                    <option value="Arts">Arts</option>
-                    <option value="Business">Business</option>
-                    <option value="Sharia">Sharia</option>
-                    <option value="EduS">Educational Sciences</option>
-                    <option value="Law">Law</option>
-                    <option value="PE">Physical Education</option>
-                    <option value="A&D">Arts and Design</option>
-                    <option value="IS">International Studies</option>
-                    <option value="FL">Foreign Languages</option>
-                    <option value="A&T">Archaeology and Tourism</option>
-                    <option value="Nurs">Nursing</option>
-                    <option value="Med">Medicine</option>
-                    <option value="Phar">Pharmacy</option>
-                    <option value="Dent">Dentistry</option>
-                    <option value="RS">Rehabilitation Sciences</option>
-                    <option value="other">Other</option>
+                    <?php
+                        $sql1 = mysqli_query($con, "SELECT * from places");
+
+                        while ($row1 = mysqli_fetch_array($sql1)) {
+
+                            $place_id   = $row1['id'];
+                            $place_name = $row1['name'];
+
+                        ?>
+
+<option value="<?php echo $place_id ?>"><?php echo $place_name ?></option>
+<?php
+}?>
                 </select>
             </div>
             <div class="form-group">
-                <label for="category">Category</label>
-                <select id="category" name="category" class="styled-select">
-                    <option value="acc">Accessories</option>
-                    <option value="sta">Stationery</option>
-                    <option value="phone" selected>Phones</option>
-                    <option value="elec">Electronics</option>
-                    <option value="clothes">Clothes</option>
+                <label for="category_id">Category</label>
+                <select id="category_id" name="category_id" class="styled-select">
+                <?php
+                    $sql1 = mysqli_query($con, "SELECT * from categories WHERE type = 'losts'");
+
+                    while ($row1 = mysqli_fetch_array($sql1)) {
+
+                        $category_id   = $row1['id'];
+                        $category_name = $row1['name'];
+
+                    ?>
+
+<option value="<?php echo $category_id ?>"><?php echo $category_name ?></option>
+<?php
+}?>
                 </select>
             </div>
             <div class="form-group">
                 <label for="last-seen">Upload Image</label>
-                <input type="file" placeholder="Last Seen location" name="last-seen">
+                <input type="file" name="file" required>
+            </div>
+            <div class="last-btn">
+                <button type="submit" name="Submit" class="btn-shape add-btn">Add</button>
             </div>
         </form>
-        <div class="last-btn">
-            <button id="closeCardBtn" class="btn-shape add-btn">Add</button>
-        </div>
+
     </div>
 
     <script>
 
         document.addEventListener("DOMContentLoaded", function () {
-        
+
 
             document.getElementById('addCardBtn').addEventListener('click', function () {
                 document.getElementById('card').classList.remove('hidden');
