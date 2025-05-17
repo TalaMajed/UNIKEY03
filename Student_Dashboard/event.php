@@ -6,14 +6,14 @@
     $S_ID        = $_SESSION['S_Log'];
     $category_id_selected = $_GET['category_id'];
 
-    $eventsSql = "SELECT * from events WHERE status != 'Deleted' ORDER BY id DESC";
+    $eventsSql = "SELECT * from events WHERE status = 'Active' ORDER BY id DESC";
 
     if ($category_id_selected) {
 
         if ($category_id_selected == 'all') {
-            $eventsSql = "SELECT * from events WHERE status != 'Deleted' ORDER BY id DESC";
+            $eventsSql = "SELECT * from events WHERE status = 'Active' ORDER BY id DESC";
         } else {
-            $eventsSql = "SELECT * from events WHERE status != 'Deleted' AND category_id = '$category_id_selected' ORDER BY id DESC";
+            $eventsSql = "SELECT * from events WHERE status = 'Active' AND category_id = '$category_id_selected' ORDER BY id DESC";
         }
     }
 

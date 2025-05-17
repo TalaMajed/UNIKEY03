@@ -151,7 +151,7 @@
                         <label for="category_id">Category</label>
                         <select id="category_id" name="category_id">
                         <?php
-                            $sql1 = mysqli_query($con, "SELECT * from categories WHERE type = 'losts'");
+                            $sql1 = mysqli_query($con, "SELECT * from categories WHERE type = 'marketplaces'");
 
                             while ($row1 = mysqli_fetch_array($sql1)) {
 

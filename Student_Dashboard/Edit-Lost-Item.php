@@ -154,7 +154,7 @@
 
                             ?>
 
-<option value="<?php echo $category_id ?>"<?php echo($category_id == $marketplace_category_id ? 'selected' : '') ?>><?php echo $category_name ?></option>
+<option value="<?php echo $category_id ?>"<?php echo($category_id == $lost_category_id ? 'selected' : '') ?>><?php echo $category_name ?></option>
 <?php
 }?>
                         </select>
