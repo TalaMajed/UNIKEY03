@@ -186,6 +186,11 @@ body {
         gap: 10px;
     }
 }
+@media (max-width: 480px){
+    .sidebar h3{
+        font-size: 10px;
+    }
+}
 /* hidden card */
 .content {
     transition: filter 0.1s ease;

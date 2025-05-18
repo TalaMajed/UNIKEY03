@@ -179,3 +179,24 @@ body {
     background-color: #ccc !important;
     cursor: not-allowed !important;
 }
+.card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+            padding: 0 10px;
+            line-height: 1;
+        }
+        
+        .close-btn:hover {
+            color: #333;
+        }
